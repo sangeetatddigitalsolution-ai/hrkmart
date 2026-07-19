@@ -884,9 +884,9 @@ footer {
       </div>
 
       <div class="price-row">
-        <span class="price-now" id="heroPrice">₹799</span>
-        <span class="price-mrp" id="heroMrp">₹1,999</span>
-        <span class="price-badge" id="heroDiscount">60% OFF</span>
+        <span class="price-now" id="heroPrice">₹499</span>
+        <span class="price-mrp" id="heroMrp">₹1,299</span>
+        <span class="price-badge" id="heroDiscount">62% OFF</span>
       </div>
 
       <button class="cta-main" onclick="openModal()">
@@ -1116,7 +1116,7 @@ footer {
 
 <!-- STICKY BUY -->
 <div class="sticky-buy" id="stickyBuy">
-  <button id="stickyBuyBtn" onclick="openModal()">🛒 Abhi Order Karo — ₹799 (COD)</button>
+  <button id="stickyBuyBtn" onclick="openModal()">🛒 Abhi Order Karo — ₹499 (COD)</button>
 </div>
 
 <!-- ORDER MODAL -->
@@ -1132,17 +1132,17 @@ footer {
     <div class="modal-body" id="modalBody">
       <div class="order-summary-box">
         <h4>Order Summary</h4>
-        <div class="sum-row"><span id="sumProduct">3-in-1 Vacuum Cleaner</span><span id="sumUnitPrice">₹799</span></div>
+        <div class="sum-row"><span id="sumProduct">3-in-1 Vacuum Cleaner</span><span id="sumUnitPrice">₹499</span></div>
         <div class="sum-row">
           Quantity:
           <select class="form-select" id="fqty" onchange="updateSummary()" style="width:auto;padding:4px 10px;font-size:13px">
-            <option value="1">1 Unit — ₹799</option>
-            <option value="2">2 Units — ₹1,499</option>
-            <option value="3">3 Units — ₹1,999 🔥 Best Value</option>
+            <option value="1">1 Unit — ₹499</option>
+            <option value="2">2 Units — ₹899</option>
+            <option value="3">3 Units — ₹1,299 🔥 Best Value</option>
           </select>
         </div>
         <div class="sum-row"><span>Shipping</span><span style="color:#16a34a;font-weight:600">FREE</span></div>
-        <div class="sum-total"><span>Total</span><span id="sumTotal">₹799</span></div>
+        <div class="sum-total"><span>Total</span><span id="sumTotal">₹499</span></div>
       </div>
 
       <div class="form-group">
@@ -1210,10 +1210,10 @@ footer {
 <div class="notif-toast" id="notifToast"></div>
 
 <script>
-const API_BASE = 'https://YOUR-BACKEND-URL.onrender.com';
+const API_BASE = 'https://hrkmart.onrender.com';
 
 let productData = {
-  name: '3-in-1 Vacuum Cleaner', price: 799, mrp: 1999,
+  name: '3-in-1 Vacuum Cleaner', price: 499, mrp: 1299,
   images: [], productId: 'vc-3in1-001', product: '3-in-1-vacuum-cleaner',
   benefits: [], howToUse: ''
 };
@@ -1374,7 +1374,7 @@ document.getElementById('modalOverlay').addEventListener('click', e => {
 });
 
 // ── ORDER SUMMARY ─────────────────────────────────────────────────────
-const BUNDLE_PRICE = { 1: 799, 2: 1499, 3: 1999 };
+const BUNDLE_PRICE = { 1: 499, 2: 899, 3: 1299 };
 function updateSummary() {
   const qty = parseInt(document.getElementById('fqty').value);
   const total = BUNDLE_PRICE[qty] || (qty * productData.price);

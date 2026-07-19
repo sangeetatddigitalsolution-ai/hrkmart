@@ -28,7 +28,7 @@ pc.json, pincode_data.json, pincode_db.json   pincode → city/state data
    - `PORT` — `5000` (already in render.yaml)
    - `BACKEND_URL` — fill in after first deploy, once you have your Render URL
 4. Deploy. Render gives you a live URL like `https://vacukart.onrender.com`.
-5. **Replace the placeholder** `https://YOUR-BACKEND-URL.onrender.com` with that real URL in:
+5. **Replace the placeholder** `https://hrkmart.onrender.com` with that real URL in:
    - `index.html` → `const API_BASE = ...` (near top of the `<script>` block)
    - `admin/index.html` → the backend URL field on first login (saved to browser storage, or edit the default in the JS)
 6. Re-deploy / re-upload frontend files (or just host `index.html` + `admin/` as static files anywhere — Netlify, Vercel, S3, or Render's own static hosting — pointing at the backend URL from step 4).

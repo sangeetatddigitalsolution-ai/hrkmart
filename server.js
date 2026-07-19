@@ -864,7 +864,7 @@ app.post('/api/seed', async (req, res) => {
     if (count === 0) {
       await Product.create({
         name: '3-in-1 Vacuum Cleaner', description: 'VacuKart Portable 3-in-1 Vacuum Cleaner — cordless, rechargeable, home + car + crevice cleaning.',
-        price: 799, mrp: 1999, images: [],
+        price: 499, mrp: 1299, images: [],
         benefits: ['12000PA strong suction power','Cordless — 30 min battery backup','Home + Car + Crevice — 3-in-1 use','Lightweight & portable (~400g)','Low noise motor','Washable reusable filter'],
         ingredients: '12000PA suction motor, 2000mAh rechargeable battery, home brush head, car nozzle, crevice tool, washable HEPA-style filter, USB-C charging, transparent easy-empty dustbin.',
         howToUse: 'USB-C se 2–3 hours full charge karein. Zaroorat ke hisaab se attachment lagayein (home/car/crevice). Power button dabakar use karein.',

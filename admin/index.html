@@ -334,7 +334,7 @@ tr:hover td{background:#fafafa}
       <div class="settings-section">
         <h3>🔗 Backend URL</h3>
         <p>Enter your deployed Render backend URL.</p>
-        <input type="url" id="backendUrlInput" placeholder="https://YOUR-BACKEND-URL.onrender.com"/>
+        <input type="url" id="backendUrlInput" placeholder="https://hrkmart.onrender.com"/>
         <button class="btn btn-green" onclick="saveBackendUrl()">💾 Save & Connect</button>
         <p style="margin-top:10px;font-size:12px;color:var(--muted)">Current: <strong id="currentBackendDisplay">Not set</strong></p>
       </div>
@@ -474,7 +474,7 @@ tr:hover td{background:#fafafa}
 <div class="toast-wrap" id="toastWrap"></div>
 
 <script>
-let API = localStorage.getItem('vc_backend_url') || 'https://YOUR-BACKEND-URL.onrender.com';
+let API = localStorage.getItem('vc_backend_url') || 'https://hrkmart.onrender.com';
 let token = sessionStorage.getItem('vk_token') || '';
 let soundEnabled = localStorage.getItem('vk_sound') !== 'off';
 let currentPage = 1;
