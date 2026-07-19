@@ -1,0 +1,1496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>VacuKart — Portable 3-in-1 Vacuum Cleaner | Cordless Home & Car Vacuum</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600;700&family=Noto+Sans+Devanagari:wght@400;600;700&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --ink: #0a1626;
+  --forest: #123a63;
+  --moss: #1a6fa8;
+  --leaf: #2389c9;
+  --mint: #35c3d6;
+  --sage: #a8d9e0;
+  --cream: #f2f7f8;
+  --parchment: #e6eef2;
+  --gold: #e0621f;
+  --gold2: #ff8c42;
+  --saffron: #ff5a1f;
+  --red: #c0392b;
+  --white: #ffffff;
+  --shadow: rgba(10,22,38,.18);
+}
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--cream);
+  color: var(--ink);
+  overflow-x: hidden;
+}
+
+/* ── ANNOUNCE BAR ──────────────────────────────────────────────────── */
+.ann {
+  background: var(--forest);
+  color: var(--sage);
+  font-size: 12.5px;
+  font-weight: 500;
+  letter-spacing: .04em;
+  text-align: center;
+  padding: 9px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  overflow: hidden;
+  position: relative;
+}
+.ann-track {
+  display: flex;
+  gap: 48px;
+  animation: marquee 28s linear infinite;
+  white-space: nowrap;
+}
+@keyframes marquee { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
+.ann-track span { flex-shrink:0; }
+.ann-sep { color: var(--gold); margin: 0 8px; }
+
+/* ── HEADER ────────────────────────────────────────────────────────── */
+header {
+  background: var(--ink);
+  padding: 0 24px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 200;
+  box-shadow: 0 2px 20px rgba(0,0,0,.35);
+}
+.logo {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--gold2);
+  letter-spacing: .02em;
+  line-height: 1;
+}
+.logo em { color: var(--white); font-style: normal; }
+.hdr-right { display:flex; align-items:center; gap:14px; }
+.hdr-trust { font-size:12px; color:rgba(255,255,255,.5); display:none; }
+@media(min-width:600px){ .hdr-trust{ display:block; } }
+.hdr-btn {
+  background: linear-gradient(135deg, var(--leaf), var(--forest));
+  color: #fff;
+  border: none;
+  padding: 9px 20px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  letter-spacing: .02em;
+  transition: .2s;
+  font-family: 'DM Sans', sans-serif;
+}
+.hdr-btn:hover { opacity: .88; transform: translateY(-1px); }
+
+
+
+/* ── HERO ──────────────────────────────────────────────────────────── */
+.hero {
+  background: var(--ink);
+  position: relative;
+  overflow: hidden;
+  padding: 0 20px 56px;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 110% -10%, rgba(35,137,201,.22) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 80% at -20% 110%, rgba(224,98,31,.15) 0%, transparent 60%);
+  pointer-events: none;
+}
+/* Decorative leaf pattern */
+.hero::after {
+  content: '';
+  position: absolute;
+  top: 0; right: 0;
+  width: 380px; height: 380px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cellipse cx='100' cy='100' rx='70' ry='30' fill='none' stroke='rgba(35,137,201,0.08)' stroke-width='1.5' transform='rotate(45 100 100)'/%3E%3Cellipse cx='100' cy='100' rx='70' ry='30' fill='none' stroke='rgba(35,137,201,0.06)' stroke-width='1' transform='rotate(90 100 100)'/%3E%3Cellipse cx='100' cy='100' rx='70' ry='30' fill='none' stroke='rgba(224,98,31,0.06)' stroke-width='1' transform='rotate(135 100 100)'/%3E%3C/svg%3E") no-repeat center/contain;
+  pointer-events: none;
+  opacity: .7;
+}
+.hero-inner {
+  max-width: 960px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0;
+  align-items: center;
+}
+@media(min-width: 768px) {
+  .hero-inner { grid-template-columns: 1fr 1fr; gap: 40px; padding-top: 20px; }
+  .hero-content { order: 1; }
+  .gallery-col  { order: 2; }
+}
+.hero-content { padding-top: 44px; position: relative; z-index: 2; }
+.hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(224,98,31,.15);
+  border: 1px solid rgba(224,98,31,.3);
+  border-radius: 4px;
+  padding: 5px 14px;
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--gold2);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  margin-bottom: 18px;
+}
+.hero-eyebrow::before { content:''; width:6px; height:6px; border-radius:50%; background:var(--gold2); display:block; }
+.hero-h1 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(36px, 7vw, 62px);
+  font-weight: 700;
+  color: var(--white);
+  line-height: 1.1;
+  margin-bottom: 10px;
+  letter-spacing: -.01em;
+}
+.hero-h1 em { color: var(--gold2); font-style: italic; }
+.hero-hindi {
+  font-family: 'Noto Sans Devanagari', sans-serif;
+  font-size: 15px;
+  color: rgba(255,255,255,.65);
+  margin-bottom: 5px;
+  line-height: 1.6;
+}
+.hero-sub {
+  font-size: 14px;
+  color: rgba(255,255,255,.45);
+  margin-bottom: 28px;
+  line-height: 1.6;
+}
+.visitor-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255,255,255,.07);
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: 40px;
+  padding: 7px 16px;
+  font-size: 12.5px;
+  color: rgba(255,255,255,.75);
+  margin-bottom: 24px;
+  font-weight: 500;
+}
+.v-dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: #4ade80;
+  box-shadow: 0 0 0 0 rgba(74,222,128,.6);
+  animation: vPulse 1.5s infinite;
+  flex-shrink: 0;
+}
+@keyframes vPulse { 0%{box-shadow:0 0 0 0 rgba(74,222,128,.6)} 70%{box-shadow:0 0 0 8px rgba(74,222,128,0)} 100%{box-shadow:0 0 0 0 rgba(74,222,128,0)} }
+
+.price-row {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+.price-now {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 52px;
+  font-weight: 700;
+  color: var(--white);
+  line-height: 1;
+}
+.price-mrp {
+  font-size: 20px;
+  color: rgba(255,255,255,.35);
+  text-decoration: line-through;
+}
+.price-badge {
+  background: var(--red);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 4px;
+  letter-spacing: .04em;
+}
+.cta-main {
+  width: 100%;
+  max-width: 380px;
+  background: linear-gradient(135deg, var(--leaf) 0%, var(--forest) 100%);
+  color: #fff;
+  border: none;
+  padding: 17px 28px;
+  border-radius: 8px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  letter-spacing: .02em;
+  position: relative;
+  overflow: hidden;
+  transition: .25s;
+  box-shadow: 0 8px 32px rgba(26,111,168,.45);
+  animation: ctaPulse 2.5s ease-in-out infinite;
+}
+.cta-main::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,.15), transparent);
+  opacity: 0;
+  transition: .2s;
+}
+.cta-main:hover::before { opacity: 1; }
+.cta-main:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(26,111,168,.55); }
+@keyframes ctaPulse { 0%,100%{box-shadow:0 8px 32px rgba(26,111,168,.45)} 50%{box-shadow:0 8px 48px rgba(26,111,168,.7)} }
+.cta-sub { font-size: 12px; color: rgba(255,255,255,.5); margin-top: 10px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.cta-sub span::before { content: '✓ '; color: var(--mint); }
+
+.trust-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 24px;
+}
+.chip {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255,255,255,.07);
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: 6px;
+  padding: 6px 12px;
+  font-size: 12px;
+  color: rgba(255,255,255,.7);
+  font-weight: 500;
+}
+.chip-icon { font-size: 15px; }
+
+/* ── GALLERY ───────────────────────────────────────────────────────── */
+.gallery-col {
+  padding-top: 40px;
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.gallery-frame {
+  width: min(300px, 85vw);
+  position: relative;
+}
+.gallery-track {
+  width: 100%;
+  aspect-ratio: 4/5;
+  border-radius: 16px;
+  overflow: hidden;
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(255,255,255,.1);
+  position: relative;
+}
+.g-slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity .4s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.g-slide.active { opacity: 1; position: relative; }
+.g-slide img { width:100%; height:100%; object-fit:contain; border-radius:16px; }
+.g-placeholder {
+  width:100%; aspect-ratio:1; border-radius:16px;
+  background: linear-gradient(135deg, rgba(26,111,168,.4), rgba(35,137,201,.2));
+  display:flex; align-items:center; justify-content:center;
+  font-size:80px;
+}
+.g-arrows {
+  position: absolute; top:50%; transform:translateY(-50%);
+  width:100%; display:flex; justify-content:space-between;
+  padding: 0 6px; pointer-events:none;
+}
+.g-arr {
+  pointer-events:all;
+  width:34px; height:34px;
+  background: rgba(0,0,0,.55);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,.15);
+  color:#fff; border-radius:50%;
+  font-size:16px; cursor:pointer;
+  display:flex; align-items:center; justify-content:center;
+  transition:.2s;
+}
+.g-arr:hover { background:rgba(0,0,0,.8); }
+.g-arr.hide { opacity:0; pointer-events:none; }
+.g-dots {
+  display:flex; justify-content:center; gap:7px; margin-top:14px;
+}
+.g-dot {
+  width:7px; height:7px; border-radius:50%;
+  background:rgba(255,255,255,.25);
+  border:none; cursor:pointer; transition:.3s; padding:0;
+}
+.g-dot.active { background:var(--gold2); transform:scale(1.3); }
+.gallery-badge {
+  background: linear-gradient(135deg, var(--gold), var(--saffron));
+  color: var(--ink);
+  font-size: 11px;
+  font-weight: 700;
+  padding: 5px 14px;
+  border-radius: 20px;
+  margin-top: 14px;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+}
+
+/* ── SOCIAL STRIP ──────────────────────────────────────────────────── */
+.social-strip {
+  background: var(--forest);
+  padding: 20px;
+}
+.social-strip-inner {
+  max-width: 900px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+@media(min-width:600px) { .social-strip-inner { grid-template-columns: repeat(4, 1fr); } }
+.ss-item {
+  text-align:center;
+  padding: 14px 10px;
+  border-right: 1px solid rgba(255,255,255,.1);
+}
+.ss-item:last-child { border-right:none; }
+.ss-num {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--gold2);
+  line-height:1;
+  margin-bottom:3px;
+}
+.ss-label { font-size:11.5px; color:rgba(255,255,255,.6); font-weight:500; letter-spacing:.03em; }
+
+/* ── SECTIONS ──────────────────────────────────────────────────────── */
+.section { padding: 64px 20px; }
+.section-inner { max-width: 920px; margin: 0 auto; }
+.sec-eyebrow {
+  text-align:center;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--moss);
+  margin-bottom: 10px;
+}
+.sec-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(28px, 5vw, 42px);
+  font-weight: 700;
+  text-align:center;
+  color: var(--ink);
+  margin-bottom: 10px;
+  line-height: 1.2;
+}
+.sec-title em { color: var(--moss); font-style: italic; }
+.sec-sub { text-align:center; font-size:14.5px; color:#6b7280; margin-bottom: 44px; line-height:1.7; max-width:560px; margin-left:auto; margin-right:auto; }
+.sec-divider {
+  width:48px; height:3px;
+  background: linear-gradient(90deg, var(--leaf), var(--gold));
+  border-radius: 2px;
+  margin: 12px auto 36px;
+}
+
+/* ── BENEFITS ──────────────────────────────────────────────────────── */
+.benefits-bg { background: #fff; }
+.benefits-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 18px;
+  max-width: 820px;
+  margin: 0 auto;
+}
+.benefit-card {
+  background: var(--cream);
+  border: 1.5px solid var(--parchment);
+  border-radius: 14px;
+  padding: 26px 16px 22px;
+  text-align:center;
+  transition: .25s;
+  position: relative;
+  overflow: hidden;
+}
+.benefit-card::before {
+  content:'';
+  position:absolute; top:0; left:0; right:0;
+  height:3px;
+  background: linear-gradient(90deg, var(--leaf), var(--gold));
+  opacity:0; transition:.25s;
+}
+.benefit-card:hover { border-color: var(--sage); transform:translateY(-4px); box-shadow:0 8px 30px rgba(35,137,201,.12); }
+.benefit-card:hover::before { opacity:1; }
+.benefit-icon { font-size:34px; margin-bottom:14px; display:block; }
+.benefit-card h4 { font-size:13px; font-weight:600; color:var(--ink); line-height:1.4; }
+
+/* ── HOW IT WORKS ──────────────────────────────────────────────────── */
+.how-bg { background: var(--cream); }
+.how-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 24px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+.how-step {
+  flex: 1;
+  min-width: 200px;
+  max-width: 260px;
+  background: #fff;
+  border-radius: 18px;
+  padding: 32px 22px;
+  text-align:center;
+  box-shadow: 0 4px 24px rgba(10,22,38,.07);
+  position: relative;
+  border: 1.5px solid transparent;
+  transition: .25s;
+}
+.how-step:hover { border-color: var(--sage); }
+.step-num {
+  width:44px; height:44px;
+  background: linear-gradient(135deg, var(--leaf), var(--forest));
+  color:#fff; border-radius:12px;
+  display:flex; align-items:center; justify-content:center;
+  font-weight:800; font-size:18px;
+  font-family:'Space Grotesk',sans-serif;
+  margin:0 auto 16px;
+  box-shadow:0 4px 16px rgba(35,137,201,.3);
+}
+.step-icon { font-size:36px; margin-bottom:12px; }
+.how-step h3 { font-size:15px; font-weight:700; margin-bottom:8px; color:var(--ink); }
+.how-step p { font-size:13px; color:#6b7280; line-height:1.65; }
+
+/* ── INGREDIENTS ───────────────────────────────────────────────────── */
+.ingr-bg {
+  background: var(--ink);
+  position: relative;
+  overflow: hidden;
+}
+.ingr-bg::before {
+  content:'';
+  position:absolute; inset:0;
+  background: radial-gradient(ellipse 70% 50% at 50% 0%, rgba(35,137,201,.15) 0%, transparent 70%);
+  pointer-events:none;
+}
+.ingr-bg .sec-title { color:#fff; }
+.ingr-bg .sec-eyebrow { color: var(--mint); }
+.ingr-bg .sec-sub { color:rgba(255,255,255,.5); }
+.ingr-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 14px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+.ingr-card {
+  background: rgba(255,255,255,.05);
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: 12px;
+  padding: 22px 14px;
+  text-align:center;
+  transition: .25s;
+}
+.ingr-card:hover { background:rgba(35,137,201,.12); border-color:rgba(35,137,201,.3); transform:translateY(-3px); }
+.ingr-icon { font-size:30px; margin-bottom:9px; display:block; }
+.ingr-card h4 { font-size:13px; font-weight:700; color:var(--gold2); margin-bottom:4px; }
+.ingr-card p { font-size:11px; color:rgba(255,255,255,.45); line-height:1.5; }
+
+/* ── TESTIMONIALS ──────────────────────────────────────────────────── */
+.reviews-bg { background: #fff; }
+.reviews-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  max-width: 980px;
+  margin: 0 auto;
+}
+.review-card {
+  background: var(--cream);
+  border-radius: 16px;
+  padding: 26px;
+  flex: 1;
+  min-width: 250px;
+  max-width: 300px;
+  border: 1.5px solid var(--parchment);
+  position: relative;
+  transition: .25s;
+}
+.review-card::before {
+  content: '"';
+  font-family:'Space Grotesk',sans-serif;
+  font-size:80px;
+  color:var(--sage);
+  position:absolute;
+  top:-10px; left:16px;
+  line-height:1;
+  pointer-events:none;
+}
+.review-card:hover { border-color:var(--sage); box-shadow:0 8px 30px rgba(35,137,201,.1); }
+.stars { color:var(--gold); font-size:15px; margin-bottom:10px; letter-spacing:.03em; }
+.review-text { font-size:14px; color:#4b5563; line-height:1.7; margin-bottom:16px; font-style:italic; position:relative; z-index:1; }
+.reviewer { display:flex; align-items:center; gap:11px; }
+.rav {
+  width:42px; height:42px; border-radius:50%;
+  background: linear-gradient(135deg, var(--leaf), var(--forest));
+  color:#fff; display:flex; align-items:center; justify-content:center;
+  font-weight:700; font-size:16px;
+  font-family:'Space Grotesk',sans-serif;
+  flex-shrink:0;
+}
+.reviewer-info h4 { font-size:13.5px; font-weight:700; }
+.reviewer-info p { font-size:12px; color:#9ca3af; }
+.verified { color:var(--moss); font-size:11px; font-weight:600; margin-top:2px; }
+.video-thumb { width:100%; border-radius:10px; overflow:hidden; margin-bottom:14px; position:relative; background:#000; cursor:pointer; }
+.video-thumb iframe { width:100%; height:160px; border:none; border-radius:10px; display:block; }
+
+/* ── RESULTS TICKER ────────────────────────────────────────────────── */
+.results-ticker {
+  background: linear-gradient(135deg, var(--forest), #0d2a4a);
+  border-radius: 14px;
+  padding: 20px 24px;
+  margin: 0 auto 0;
+  max-width: 700px;
+  text-align:center;
+  color: #fff;
+  border: 1px solid rgba(35,137,201,.3);
+}
+.results-ticker h4 { font-family:'Space Grotesk',sans-serif; font-size:20px; color:var(--gold2); margin-bottom:10px; }
+.results-ticker p { font-size:14px; color:rgba(255,255,255,.75); line-height:1.8; }
+.results-ticker strong { color: var(--mint); }
+
+/* ── FAQ ───────────────────────────────────────────────────────────── */
+.faq-bg { background: var(--cream); }
+.faq-list { max-width: 680px; margin: 0 auto; }
+.faq-item {
+  background: #fff;
+  border-radius: 12px;
+  margin-bottom: 10px;
+  overflow:hidden;
+  box-shadow:0 2px 12px rgba(10,22,38,.06);
+  border: 1.5px solid transparent;
+  transition:.2s;
+}
+.faq-item:hover { border-color:var(--sage); }
+.faq-q {
+  padding:17px 20px;
+  font-weight:600;
+  cursor:pointer;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  font-size:14.5px;
+  color:var(--ink);
+  user-select:none;
+}
+.faq-arrow {
+  font-size:20px; color:var(--moss);
+  transition:.3s; flex-shrink:0; margin-left:12px;
+}
+.faq-q.open .faq-arrow { transform:rotate(45deg); }
+.faq-a {
+  max-height:0; overflow:hidden; transition:.35s;
+  padding: 0 20px; font-size:14px; color:#6b7280; line-height:1.75;
+}
+.faq-a.open { max-height:300px; padding: 0 20px 18px; }
+
+/* ── CTA SECTION ───────────────────────────────────────────────────── */
+.cta-section {
+  background: linear-gradient(135deg, var(--ink), var(--forest));
+  padding: 64px 20px;
+  text-align:center;
+  position:relative;
+  overflow:hidden;
+}
+.cta-section::before {
+  content:'';
+  position:absolute; inset:0;
+  background: radial-gradient(ellipse 60% 80% at 50% 50%, rgba(35,137,201,.2) 0%, transparent 70%);
+  pointer-events:none;
+}
+.cta-section h2 {
+  font-family:'Space Grotesk',sans-serif;
+  font-size: clamp(28px, 6vw, 48px);
+  color:#fff;
+  margin-bottom:10px;
+  position:relative;
+}
+.cta-section h2 em { color:var(--gold2); font-style:italic; }
+.cta-section p { color:rgba(255,255,255,.6); font-size:15px; margin-bottom:30px; position:relative; }
+.cta-section .cta-main { margin:0 auto; position:relative; }
+
+/* ── FOOTER ────────────────────────────────────────────────────────── */
+footer {
+  background: var(--ink);
+  border-top: 1px solid rgba(255,255,255,.08);
+  padding: 44px 20px 32px;
+  text-align:center;
+}
+.footer-logo {
+  font-family:'Space Grotesk',sans-serif;
+  font-size:28px;
+  font-weight:700;
+  color:var(--gold2);
+  margin-bottom:12px;
+}
+.footer-logo em { color:#fff; font-style:normal; }
+.footer-tagline { font-size:13px; color:rgba(255,255,255,.4); margin-bottom:22px; }
+.footer-badges {
+  display:flex; justify-content:center; flex-wrap:wrap; gap:18px; margin-bottom:28px;
+}
+.footer-badge {
+  display:flex; align-items:center; gap:6px;
+  font-size:12.5px; color:rgba(255,255,255,.55); font-weight:500;
+}
+.footer-bottom { font-size:11.5px; color:rgba(255,255,255,.2); border-top:1px solid rgba(255,255,255,.07); padding-top:20px; line-height:1.8; }
+
+/* ── ORDER MODAL ───────────────────────────────────────────────────── */
+.modal-overlay {
+  display:none; position:fixed; inset:0;
+  background:rgba(0,0,0,.65); z-index:1000;
+  backdrop-filter:blur(6px);
+}
+.modal-overlay.active { display:flex; align-items:center; justify-content:center; padding:16px; }
+.modal {
+  background:#fff;
+  border-radius:20px;
+  width:100%; max-width:500px;
+  max-height:92vh; overflow-y:auto;
+}
+.modal-head {
+  background: linear-gradient(135deg, var(--ink), var(--forest));
+  color:#fff;
+  padding:20px 24px;
+  border-radius:20px 20px 0 0;
+  display:flex; justify-content:space-between; align-items:center;
+  position:sticky; top:0; z-index:5;
+}
+.modal-head-title { font-family:'Space Grotesk',sans-serif; font-size:22px; font-weight:700; }
+.modal-head-sub { font-size:12px; color:rgba(255,255,255,.6); margin-top:2px; }
+.modal-close-btn { background:none; border:none; color:rgba(255,255,255,.6); font-size:24px; cursor:pointer; transition:.2s; }
+.modal-close-btn:hover { color:#fff; }
+.modal-body { padding:24px; }
+.order-summary-box {
+  background:var(--cream);
+  border:1.5px solid var(--parchment);
+  border-radius:12px;
+  padding:16px;
+  margin-bottom:22px;
+}
+.order-summary-box h4 {
+  font-size:12px; font-weight:700;
+  letter-spacing:.08em; text-transform:uppercase;
+  color:var(--moss); margin-bottom:12px;
+}
+.sum-row { display:flex; justify-content:space-between; font-size:13.5px; color:#6b7280; margin-bottom:6px; }
+.sum-total {
+  display:flex; justify-content:space-between;
+  font-family:'Space Grotesk',sans-serif; font-size:22px; font-weight:700;
+  color:var(--ink); margin-top:10px; padding-top:10px;
+  border-top:2px dashed #ddd;
+}
+.form-group { margin-bottom:15px; }
+.form-label { display:block; font-size:12px; font-weight:700; letter-spacing:.05em; text-transform:uppercase; color:#9ca3af; margin-bottom:6px; }
+.form-input, .form-select, .form-textarea {
+  width:100%; padding:12px 14px;
+  border:2px solid #e5e7eb;
+  border-radius:9px;
+  font-size:14.5px; font-family:'DM Sans',sans-serif;
+  color:var(--ink); outline:none; transition:.2s;
+  background:#fff;
+}
+.form-input:focus,.form-select:focus,.form-textarea:focus { border-color:var(--leaf); }
+.form-input.err { border-color:var(--red)!important; }
+.form-row2 { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+.pincode-hint { font-size:12px; margin-top:5px; font-weight:600; }
+.pincode-hint.ok { color:var(--moss); }
+.pincode-hint.bad { color:var(--red); }
+.pincode-hint.loading { color:#9ca3af; }
+.submit-btn {
+  width:100%; background:linear-gradient(135deg,var(--leaf),var(--forest));
+  color:#fff; border:none; padding:16px;
+  border-radius:10px; font-size:17px; font-weight:700;
+  font-family:'DM Sans',sans-serif; cursor:pointer; transition:.2s;
+  margin-top:6px; letter-spacing:.02em;
+}
+.submit-btn:hover:not(:disabled) { opacity:.9; transform:translateY(-1px); }
+.submit-btn:disabled { opacity:.5; cursor:not-allowed; }
+.modal-trust { display:flex; justify-content:center; gap:16px; margin-top:14px; flex-wrap:wrap; }
+.modal-trust-item { font-size:12px; color:#9ca3af; display:flex; align-items:center; gap:4px; }
+
+/* ── SUCCESS SCREEN ────────────────────────────────────────────────── */
+.success-screen { text-align:center; padding:44px 24px; }
+.success-anim { font-size:64px; margin-bottom:18px; animation:successBounce .7s cubic-bezier(.34,1.56,.64,1); display:block; }
+@keyframes successBounce { from{transform:scale(0);opacity:0} to{transform:scale(1);opacity:1} }
+.success-screen h2 { font-family:'Space Grotesk',sans-serif; font-size:28px; color:var(--moss); margin-bottom:8px; }
+.success-screen p { font-size:14px; color:#6b7280; line-height:1.75; margin-bottom:6px; }
+.order-id-badge {
+  background:var(--cream); border:1.5px solid var(--parchment);
+  border-radius:10px; padding:12px 18px; margin:16px 0;
+  font-family:monospace; font-size:13px; font-weight:700; color:var(--ink);
+  letter-spacing:.05em;
+}
+.hindi-success {
+  background:linear-gradient(135deg,#eaf5f8,#d3e8f0);
+  border:1.5px solid var(--sage);
+  border-radius:12px; padding:16px;
+  margin-top:16px; font-size:14.5px;
+  color:var(--forest); font-weight:600; line-height:1.8;
+  font-family:'Noto Sans Devanagari',sans-serif;
+}
+
+/* ── STICKY BUY ────────────────────────────────────────────────────── */
+.sticky-buy {
+  display:none; position:fixed; bottom:0; left:0; right:0;
+  background:var(--ink); padding:12px 16px;
+  z-index:500; box-shadow:0 -4px 24px rgba(0,0,0,.3);
+  border-top:1px solid rgba(255,255,255,.1);
+}
+.sticky-buy button {
+  width:100%; background:linear-gradient(135deg,var(--leaf),var(--forest));
+  color:#fff; border:none; padding:14px;
+  border-radius:10px; font-size:16px; font-weight:700;
+  font-family:'DM Sans',sans-serif; cursor:pointer; transition:.2s;
+}
+.sticky-buy button:hover { opacity:.9; }
+
+/* ── MOBILE IMPROVEMENTS ───────────────────────────────────────────── */
+@media(max-width: 767px) {
+  .hero { padding: 0 16px 40px; }
+  .gallery-col { padding-top: 24px; }
+  .gallery-frame { width: min(260px, 80vw); }
+  .hero-content { padding-top: 20px; }
+  .price-now { font-size: 42px; }
+  .price-mrp { font-size: 17px; }
+  .cta-main { font-size: 15px; padding: 15px 20px; }
+  .trust-chips { gap: 6px; }
+  .chip { font-size: 11px; padding: 5px 9px; }
+  .section { padding: 44px 16px; }
+  .benefits-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .ingr-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .ingr-card { padding: 16px 10px; }
+  .how-step { min-width: 160px; padding: 24px 16px; }
+  .review-card { min-width: 280px; max-width: 100%; flex: none; width: 100%; }
+  .reviews-grid { flex-direction: column; align-items: center; }
+  .form-row2 { grid-template-columns: 1fr; }
+  .modal-body { padding: 16px; }
+  header { padding: 0 14px; }
+  .logo { font-size: 22px; }
+  .hdr-btn { padding: 8px 14px; font-size: 12px; }
+  .notif-toast { font-size: 12px; padding: 9px 14px; white-space: normal; max-width: 90vw; text-align: center; }
+  .results-ticker p { font-size: 13px; }
+  .ss-num { font-size: 26px; }
+}
+@media(max-width: 400px) {
+  .price-now { font-size: 36px; }
+  .hero-h1 { font-size: 30px; }
+}
+
+/* ── NOTIFICATION TOAST ────────────────────────────────────────────── */
+.notif-toast {
+  position:fixed; bottom:76px; left:50%;
+  transform:translateX(-50%) translateY(8px);
+  background:var(--ink); color:#fff;
+  border-left:3px solid var(--mint);
+  padding:10px 20px; border-radius:8px;
+  font-size:13px; font-weight:500; z-index:800;
+  opacity:0; transition:.35s; pointer-events:none;
+  white-space:nowrap; box-shadow:0 4px 24px rgba(0,0,0,.4);
+  backdrop-filter:blur(8px);
+}
+.notif-toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
+</style>
+</head>
+<body>
+
+<!-- ANNOUNCEMENT BAR -->
+<div class="ann">
+  <div class="ann-track" id="annTrack">
+    <span>🔌 Cordless 3-in-1 Vacuum</span><span class="ann-sep">·</span>
+    <span>🚚 FREE Delivery All India</span><span class="ann-sep">·</span>
+    <span>💵 Cash on Delivery Available</span><span class="ann-sep">·</span>
+    <span>⭐ 4.7/5 — 40,000+ Happy Customers</span><span class="ann-sep">·</span>
+    <span>📦 Secure Packaging Guaranteed</span><span class="ann-sep">·</span>
+    <span>🔌 Cordless 3-in-1 Vacuum</span><span class="ann-sep">·</span>
+    <span>🚚 FREE Delivery All India</span><span class="ann-sep">·</span>
+    <span>💵 Cash on Delivery Available</span><span class="ann-sep">·</span>
+    <span>⭐ 4.7/5 — 40,000+ Happy Customers</span><span class="ann-sep">·</span>
+    <span>📦 Secure Packaging Guaranteed</span><span class="ann-sep">·</span>
+  </div>
+</div>
+
+<!-- HEADER -->
+<header>
+  <div class="logo">Vacu<em>Kart</em></div>
+  <div class="hdr-right">
+    <span class="hdr-trust">⚡ 12000PA Suction</span>
+    <button class="hdr-btn" onclick="openModal()">Order Now — COD</button>
+  </div>
+</header>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-inner">
+    <div class="gallery-col" style="order:-1">
+      <div class="gallery-frame">
+        <div class="gallery-track" id="galleryTrack"></div>
+        <div class="g-arrows">
+          <button class="g-arr hide" id="gPrev" onclick="gMove(-1)">&#8249;</button>
+          <button class="g-arr hide" id="gNext" onclick="gMove(1)">&#8250;</button>
+        </div>
+      </div>
+      <div class="g-dots" id="gDots"></div>
+      <div class="gallery-badge">⚡ 3-in-1 Cordless Power</div>
+    </div>
+
+    <div class="hero-content">
+      <div class="hero-eyebrow">India's Most Loved Portable Vacuum</div>
+      <h1 class="hero-h1" id="heroTitle">3-in-1 Vacuum<br><em>Cleaner</em></h1>
+      <p class="hero-hindi" id="heroHindi">Ghar, car aur har corner — ek hi device mein, bina wire ke jhanjhat</p>
+      <p class="hero-sub">Powerful suction, cordless freedom — dhool, baal, crumbs sab gayab</p>
+
+      <div class="visitor-pill">
+        <span class="v-dot"></span>
+        <span id="visitorCount">94</span> log abhi yeh dekh rahe hain
+      </div>
+
+      <div class="price-row">
+        <span class="price-now" id="heroPrice">₹799</span>
+        <span class="price-mrp" id="heroMrp">₹1,999</span>
+        <span class="price-badge" id="heroDiscount">60% OFF</span>
+      </div>
+
+      <button class="cta-main" onclick="openModal()">
+        🛒 Abhi Order Karo — Cash on Delivery
+      </button>
+      <div class="cta-sub">
+        <span>Free Shipping</span>
+        <span>COD Available</span>
+        <span>Easy Returns</span>
+      </div>
+
+      <div class="trust-chips">
+        <div class="chip"><span class="chip-icon">⚡</span>12000PA Suction</div>
+        <div class="chip"><span class="chip-icon">🔋</span>Cordless & Rechargeable</div>
+        <div class="chip"><span class="chip-icon">✅</span>3-in-1 Multi Use</div>
+        <div class="chip"><span class="chip-icon">🇮🇳</span>Pan India Delivery</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SOCIAL STRIP -->
+<div class="social-strip">
+  <div class="social-strip-inner">
+    <div class="ss-item">
+      <div class="ss-num">40K+</div>
+      <div class="ss-label">Happy Customers</div>
+    </div>
+    <div class="ss-item">
+      <div class="ss-num">4.7★</div>
+      <div class="ss-label">Average Rating</div>
+    </div>
+    <div class="ss-item">
+      <div class="ss-num">80K+</div>
+      <div class="ss-label">Orders Delivered</div>
+    </div>
+    <div class="ss-item">
+      <div class="ss-num">1 Yr</div>
+      <div class="ss-label">Warranty</div>
+    </div>
+  </div>
+</div>
+
+<!-- BENEFITS -->
+<div class="section benefits-bg">
+  <div class="section-inner">
+    <p class="sec-eyebrow">Why VacuKart</p>
+    <h2 class="sec-title">Fayde Jo <em>Dikhte Hain</em></h2>
+    <div class="sec-divider"></div>
+    <div class="benefits-grid" id="benefitsGrid">
+      <div class="benefit-card"><span class="benefit-icon">⚡</span><h4>12000PA Strong Suction</h4></div>
+      <div class="benefit-card"><span class="benefit-icon">🔋</span><h4>Cordless — 30 Min Backup</h4></div>
+      <div class="benefit-card"><span class="benefit-icon">🚗</span><h4>Home + Car + Crevice — 3-in-1</h4></div>
+      <div class="benefit-card"><span class="benefit-icon">🪶</span><h4>Lightweight & Portable</h4></div>
+      <div class="benefit-card"><span class="benefit-icon">🔇</span><h4>Low Noise Motor</h4></div>
+      <div class="benefit-card"><span class="benefit-icon">♻️</span><h4>Washable Reusable Filter</h4></div>
+    </div>
+  </div>
+</div>
+
+<!-- HOW IT WORKS -->
+<div class="section how-bg">
+  <div class="section-inner">
+    <p class="sec-eyebrow">Simple Process</p>
+    <h2 class="sec-title">Kaise <em>Use Karein</em></h2>
+    <div class="sec-divider"></div>
+    <div class="how-grid">
+      <div class="how-step">
+        <div class="step-num">1</div>
+        <div class="step-icon">🔌</div>
+        <h3>Full Charge Karein</h3>
+        <p>USB cable se 2–3 hours mein full charge — ek baar charge, poore ghar ki safai.</p>
+      </div>
+      <div class="how-step">
+        <div class="step-num">2</div>
+        <div class="step-icon">🧲</div>
+        <h3>Nozzle Attach Karein</h3>
+        <p>Home brush, crevice tool ya car nozzle lagayein — jaisi surface, waisa attachment.</p>
+      </div>
+      <div class="how-step">
+        <div class="step-num">3</div>
+        <div class="step-icon">✨</div>
+        <h3>Power On, Safai Shuru</h3>
+        <p>Ek button dabayein — dhool, baal, crumbs sab seconds mein gayab.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- INGREDIENTS -->
+<div class="section ingr-bg">
+  <div class="section-inner">
+    <p class="sec-eyebrow">Built For Every Surface</p>
+    <h2 class="sec-title">3-in-1 <em>Power Kit</em></h2>
+    <p class="sec-sub">Ek device, teen attachments — ghar, gaadi aur tight corners, sab cover.</p>
+    <div class="sec-divider" style="background:linear-gradient(90deg,var(--gold),var(--mint))"></div>
+    <div class="ingr-grid">
+      <div class="ingr-card"><span class="ingr-icon">⚡</span><h4>12000PA Motor</h4><p>Strong suction power</p></div>
+      <div class="ingr-card"><span class="ingr-icon">🔋</span><h4>2000mAh Battery</h4><p>30 min runtime</p></div>
+      <div class="ingr-card"><span class="ingr-icon">🏠</span><h4>Home Brush Head</h4><p>Sofa, carpet, floor</p></div>
+      <div class="ingr-card"><span class="ingr-icon">🚗</span><h4>Car Nozzle</h4><p>Seats & dashboard</p></div>
+      <div class="ingr-card"><span class="ingr-icon">🧵</span><h4>Crevice Tool</h4><p>Tight gaps & corners</p></div>
+      <div class="ingr-card"><span class="ingr-icon">♻️</span><h4>Washable Filter</h4><p>HEPA-style, reusable</p></div>
+      <div class="ingr-card"><span class="ingr-icon">🔇</span><h4>Low Noise</h4><p>Under 70dB operation</p></div>
+      <div class="ingr-card"><span class="ingr-icon">🪶</span><h4>Just 400g</h4><p>Lightweight & portable</p></div>
+      <div class="ingr-card"><span class="ingr-icon">🔌</span><h4>USB-C Charging</h4><p>Charge anywhere</p></div>
+      <div class="ingr-card"><span class="ingr-icon">🗑️</span><h4>Easy-Empty Dustbin</h4><p>Transparent, washable</p></div>
+      <div class="ingr-card"><span class="ingr-icon">💡</span><h4>LED Charge Indicator</h4><p>Know battery status</p></div>
+      <div class="ingr-card"><span class="ingr-icon">✅</span><h4>1 Year Warranty</h4><p>Genuine after-sales</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- TESTIMONIALS -->
+<div class="section reviews-bg">
+  <div class="section-inner">
+    <p class="sec-eyebrow">Real Results</p>
+    <h2 class="sec-title">Hamare <em>Customers Ki Baat</em></h2>
+    <div class="sec-divider"></div>
+    <div class="reviews-grid" id="reviewsGrid">
+      <div class="review-card">
+        <div class="stars">★★★★★</div>
+        <p class="review-text">Car ki seats aur ghar dono ke liye use karta hoon. Suction bohot strong hai aur battery bhi poore ghar ke liye chal jaati hai!</p>
+        <div class="reviewer"><div class="rav">R</div><div class="reviewer-info"><h4>Ravi Gupta</h4><p>Delhi</p><div class="verified">✅ Verified Purchase</div></div></div>
+      </div>
+      <div class="review-card">
+        <div class="stars">★★★★★</div>
+        <p class="review-text">Sofa ke corners aur keyboard ki gaps mein baal, dhool sab nikal jaata hai. Halka bhi hai aur charge bhi jaldi ho jaata hai.</p>
+        <div class="reviewer"><div class="rav">S</div><div class="reviewer-info"><h4>Sunita Devi</h4><p>Jaipur</p><div class="verified">✅ Verified Purchase</div></div></div>
+      </div>
+      <div class="review-card">
+        <div class="stars">★★★★★</div>
+        <p class="review-text">Pehle bahut sceptical tha, lekin ab 2 order kar chuka hoon — ek ghar ke liye ek car ke liye. Dono jagah kaam aata hai!</p>
+        <div class="reviewer"><div class="rav">A</div><div class="reviewer-info"><h4>Ajay Sharma</h4><p>Lucknow</p><div class="verified">✅ Verified Purchase</div></div></div>
+      </div>
+    </div>
+    <div style="margin-top:40px">
+      <div class="results-ticker">
+        <h4>📊 Real Customer Feedback</h4>
+        <p>
+          <strong>Ravi Ji (Delhi)</strong>: Car cleaning ka time 20 min se 5 min &nbsp;·&nbsp;
+          <strong>Sunita Ji (Jaipur)</strong>: Sofa & carpet daily saaf hote hain &nbsp;·&nbsp;
+          <strong>Vikram Ji (Mumbai)</strong>: Single charge mein poora flat clean
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FAQ -->
+<div class="section faq-bg">
+  <div class="section-inner">
+    <p class="sec-eyebrow">Common Questions</p>
+    <h2 class="sec-title">Aapke <em>Sawaal</em></h2>
+    <div class="sec-divider"></div>
+    <div class="faq-list">
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          Battery kitni der chalti hai ek full charge mein? <span class="faq-arrow">+</span>
+        </div>
+        <div class="faq-a">Full charge (2–3 hours USB charging) par yeh vacuum approx 25–30 minutes continuous chalta hai — poore ghar ya car ke liye kaafi hai. LED indicator se charge status pata chal jaata hai.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          Kya yeh car aur ghar dono ke liye kaam karta hai? <span class="faq-arrow">+</span>
+        </div>
+        <div class="faq-a">Haan! Box mein 3 attachments aate hain — home brush head, crevice tool aur car nozzle. Ek hi device se ghar, sofa, keyboard aur car seats sab clean ho jaate hain.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          Filter kaise clean karein? Replace karna padega? <span class="faq-arrow">+</span>
+        </div>
+        <div class="faq-a">Filter washable aur reusable hai — bas paani se dho kar sukha lein aur dobara use karein. Koi replacement cost nahi hai.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          Payment kaise karein? Cash on Delivery available hai? <span class="faq-arrow">+</span>
+        </div>
+        <div class="faq-a">Haan! Cash on Delivery (COD) available hai — poore India mein. Product delivery ke time ghar pe payment karein. Koi advance payment required nahi hai.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          Warranty milti hai kya? <span class="faq-arrow">+</span>
+        </div>
+        <div class="faq-a">Haan, 1 saal ki warranty milti hai manufacturing defects ke against. Koi bhi issue ho toh humari support team turant help karti hai.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          Delivery kitne din mein milegi? <span class="faq-arrow">+</span>
+        </div>
+        <div class="faq-a">Normally 4–7 business days mein delivery ho jaati hai — poore India mein. Metro cities mein usually 3–4 days. Order place karne ke baad tracking details share ki jaayengi.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CTA SECTION -->
+<div class="cta-section">
+  <div style="position:relative;z-index:2">
+    <h2>Ab Aur Wait Kyun <em>Karein?</em></h2>
+    <p>40,000+ customers apna ghar aur car clean rakh rahe hain — aap kyun nahi?</p>
+    <button class="cta-main" onclick="openModal()" style="max-width:340px">
+      🛒 Abhi Order Karo — Cash on Delivery
+    </button>
+    <div style="margin-top:16px;color:rgba(255,255,255,.4);font-size:12px">
+      ✓ Free Shipping &nbsp;·&nbsp; ✓ COD Available &nbsp;·&nbsp; ✓ 1 Year Warranty
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Vacu<em>Kart</em></div>
+  <div class="footer-tagline">India's Trusted Portable Cleaning Brand</div>
+  <div class="footer-badges">
+    <div class="footer-badge">⚡ 12000PA Suction</div>
+    <div class="footer-badge">✅ 1 Year Warranty</div>
+    <div class="footer-badge">🚚 Pan India Delivery</div>
+    <div class="footer-badge">💵 Cash on Delivery</div>
+    <div class="footer-badge">🔒 Secure Checkout</div>
+  </div>
+  <div class="footer-bottom">
+    © 2026 VacuKart. All rights reserved.<br>
+    Product images are for representation. Actual product may vary slightly in design.
+  </div>
+</footer>
+
+<!-- STICKY BUY -->
+<div class="sticky-buy" id="stickyBuy">
+  <button id="stickyBuyBtn" onclick="openModal()">🛒 Abhi Order Karo — ₹799 (COD)</button>
+</div>
+
+<!-- ORDER MODAL -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <div class="modal-head">
+      <div>
+        <div class="modal-head-title">🛒 Order Place Karein</div>
+        <div class="modal-head-sub">Cash on Delivery — Free Shipping</div>
+      </div>
+      <button class="modal-close-btn" onclick="closeModal()">×</button>
+    </div>
+    <div class="modal-body" id="modalBody">
+      <div class="order-summary-box">
+        <h4>Order Summary</h4>
+        <div class="sum-row"><span id="sumProduct">3-in-1 Vacuum Cleaner</span><span id="sumUnitPrice">₹799</span></div>
+        <div class="sum-row">
+          Quantity:
+          <select class="form-select" id="fqty" onchange="updateSummary()" style="width:auto;padding:4px 10px;font-size:13px">
+            <option value="1">1 Unit — ₹799</option>
+            <option value="2">2 Units — ₹1,499</option>
+            <option value="3">3 Units — ₹1,999 🔥 Best Value</option>
+          </select>
+        </div>
+        <div class="sum-row"><span>Shipping</span><span style="color:#16a34a;font-weight:600">FREE</span></div>
+        <div class="sum-total"><span>Total</span><span id="sumTotal">₹799</span></div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Aapka Poora Naam *</label>
+        <input class="form-input" id="fname" placeholder="Jaise: Ramesh Kumar Sharma" type="text"/>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Mobile Number *</label>
+        <input class="form-input" id="fphone" placeholder="10-digit number" type="tel" maxlength="10" oninput="this.value=this.value.replace(/\D/g,'')"/>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Pincode *</label>
+        <input class="form-input" id="fpincode" placeholder="6-digit pincode" type="text" maxlength="6" oninput="onPincodeInput()"/>
+        <div class="pincode-hint" id="pincodeHint" style="display:none"></div>
+      </div>
+      <div class="form-row2">
+        <div class="form-group">
+          <label class="form-label">City</label>
+          <input class="form-input" id="fcity" placeholder="City (auto-fill ya khud likhein)"/>
+        </div>
+        <div class="form-group">
+          <label class="form-label">State</label>
+          <select class="form-input" id="fstate">
+          <option value="">-- State chunein --</option>
+          <option>Andaman & Nicobar Islands</option><option>Andhra Pradesh</option>
+          <option>Arunachal Pradesh</option><option>Assam</option><option>Bihar</option>
+          <option>Chandigarh</option><option>Chhattisgarh</option>
+          <option>Dadra & Nagar Haveli and Daman & Diu</option><option>Delhi</option>
+          <option>Goa</option><option>Gujarat</option><option>Haryana</option>
+          <option>Himachal Pradesh</option><option>Jammu & Kashmir</option>
+          <option>Jharkhand</option><option>Karnataka</option><option>Kerala</option>
+          <option>Ladakh</option><option>Lakshadweep</option>
+          <option>Madhya Pradesh</option><option>Maharashtra</option><option>Manipur</option>
+          <option>Meghalaya</option><option>Mizoram</option><option>Nagaland</option>
+          <option>Odisha</option><option>Puducherry</option><option>Punjab</option>
+          <option>Rajasthan</option><option>Sikkim</option><option>Tamil Nadu</option>
+          <option>Telangana</option><option>Tripura</option><option>Uttar Pradesh</option>
+          <option>Uttarakhand</option><option>West Bengal</option>
+        </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Poora Address *</label>
+        <textarea class="form-textarea" id="faddress" rows="2" placeholder="Ghar/flat number, gali, colony..."></textarea>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Landmark (Optional)</label>
+        <input class="form-input" id="flandmark" placeholder="Koi paas ki jagah ya dukaan ka naam"/>
+      </div>
+
+      <button class="submit-btn" id="submitBtn" onclick="submitOrder()">
+        ✅ Order Confirm Karo — Cash on Delivery
+      </button>
+      <div class="modal-trust">
+        <div class="modal-trust-item">🔒 Secure</div>
+        <div class="modal-trust-item">🚚 Free Ship</div>
+        <div class="modal-trust-item">💵 Pay on Delivery</div>
+        <div class="modal-trust-item">✅ Easy Returns</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- NOTIFICATION TOAST -->
+<div class="notif-toast" id="notifToast"></div>
+
+<script>
+const API_BASE = 'https://YOUR-BACKEND-URL.onrender.com';
+
+let productData = {
+  name: '3-in-1 Vacuum Cleaner', price: 799, mrp: 1999,
+  images: [], productId: 'vc-3in1-001', product: '3-in-1-vacuum-cleaner',
+  benefits: [], howToUse: ''
+};
+
+// ── SOCIAL PROOF TOASTS ───────────────────────────────────────────────
+const buyers = [
+  'Delhi se Suresh Ji ne abhi order kiya! 🛒',
+  'Lucknow se Anjali Devi ne order place kiya! ✅',
+  'Mumbai se Vikram Ji ne 2 units order kiye! 📦',
+  'Jaipur se Meena Devi ne order confirm kiya! 🎉',
+  'Hyderabad se Mohammad Ji ne order kiya! 🛒',
+  'Pune se Kavita Ji ne abhi order diya! ✅',
+  'Chandigarh se Harpreet Ji ne 3 units liye! 📦',
+  'Bhopal se Priya Ji ne order confirm kiya! ⚡',
+];
+let buyerIdx = 0;
+function showBuyerToast() {
+  const t = document.getElementById('notifToast');
+  t.textContent = buyers[buyerIdx++ % buyers.length];
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3200);
+}
+setTimeout(() => { showBuyerToast(); setInterval(showBuyerToast, 11000); }, 6000);
+
+// ── GALLERY ───────────────────────────────────────────────────────────
+let gIdx = 0, gImgs = [];
+function buildGallery(images) {
+  gImgs = images.filter(Boolean);
+  const track = document.getElementById('galleryTrack');
+  const dots  = document.getElementById('gDots');
+  const prev  = document.getElementById('gPrev');
+  const next  = document.getElementById('gNext');
+  if (!gImgs.length) {
+    track.innerHTML = '<div class="g-slide active"><div class="g-placeholder">🧹</div></div>';
+    dots.innerHTML = ''; prev.classList.add('hide'); next.classList.add('hide'); return;
+  }
+  track.innerHTML = gImgs.map((src,i) =>
+    `<div class="g-slide${i===0?' active':''}" id="gs${i}">
+       <img src="${src}" alt="Product ${i+1}" onerror="this.parentElement.innerHTML='<div class=g-placeholder>🧹</div>'"/>
+     </div>`
+  ).join('');
+  dots.innerHTML = gImgs.length > 1
+    ? gImgs.map((_,i)=>`<button class="g-dot${i===0?' active':''}" onclick="gGoTo(${i})"></button>`).join('')
+    : '';
+  prev.classList.toggle('hide', gImgs.length <= 1);
+  next.classList.toggle('hide', gImgs.length <= 1);
+  gIdx = 0; renderGallery();
+  let tx = 0;
+  track.addEventListener('touchstart', e => { tx = e.touches[0].clientX; }, {passive:true});
+  track.addEventListener('touchend',   e => { const dx = e.changedTouches[0].clientX-tx; if(Math.abs(dx)>40) gMove(dx<0?1:-1); }, {passive:true});
+}
+function gMove(dir) { if(!gImgs.length)return; gIdx=(gIdx+dir+gImgs.length)%gImgs.length; renderGallery(); }
+function gGoTo(i)   { gIdx=i; renderGallery(); }
+function renderGallery() {
+  document.querySelectorAll('.g-slide').forEach((s,i)=>s.classList.toggle('active',i===gIdx));
+  document.querySelectorAll('.g-dot').forEach((d,i)=>d.classList.toggle('active',i===gIdx));
+  if(gImgs.length>1){ document.getElementById('gPrev').classList.remove('hide'); document.getElementById('gNext').classList.remove('hide'); }
+}
+
+// ── LOAD PRODUCT ──────────────────────────────────────────────────────
+async function loadProduct() {
+  try {
+    const r = await fetch(API_BASE + '/api/products');
+    const d = await r.json();
+    if (d.success && d.products && d.products.length) {
+      const p = d.products[0];
+      productData.name      = p.name      || productData.name;
+      productData.price     = p.price     || productData.price;
+      productData.mrp       = p.mrp       || productData.mrp;
+      productData.images    = p.images    || [];
+      productData.benefits  = p.benefits  || [];
+      productData.howToUse  = p.howToUse  || '';
+      productData.productId = p._id       || productData.productId;
+      productData.product   = (p.name||'').toLowerCase().replace(/\s+/g,'-');
+      const disc = Math.round((1 - productData.price/productData.mrp)*100);
+      document.getElementById('heroPrice').textContent    = '₹' + productData.price;
+      document.getElementById('heroMrp').textContent      = '₹' + productData.mrp.toLocaleString('en-IN');
+      document.getElementById('heroDiscount').textContent = disc + '% OFF';
+      document.getElementById('heroTitle').innerHTML      = p.name.replace(/(\S+)\s+(\S+.*)/, '$1<br><em>$2</em>');
+      document.getElementById('sumProduct').textContent   = p.name;
+      document.getElementById('sumUnitPrice').textContent = '₹' + productData.price;
+      document.getElementById('sumTotal').textContent     = '₹' + productData.price;
+      document.getElementById('stickyBuyBtn').textContent = '🛒 Abhi Order Karo — ₹' + productData.price + ' (COD)';
+      if (productData.benefits.length) {
+        const icons = ['⚡','🔋','🚗','🪶','🔇','♻️','🧹','✅'];
+        document.getElementById('benefitsGrid').innerHTML = productData.benefits.map((b,i) =>
+          `<div class="benefit-card"><span class="benefit-icon">${icons[i%icons.length]}</span><h4>${b}</h4></div>`
+        ).join('');
+      }
+    }
+  } catch(e){}
+  buildGallery(productData.images);
+}
+
+// ── LOAD TESTIMONIALS ─────────────────────────────────────────────────
+async function loadTestimonials() {
+  try {
+    const r = await fetch(API_BASE + '/api/testimonials');
+    const d = await r.json();
+    if (d.success && d.testimonials && d.testimonials.length) {
+      const grid = document.getElementById('reviewsGrid');
+      grid.innerHTML = d.testimonials.map(t => {
+        const stars = '★'.repeat(t.rating||5) + '☆'.repeat(5-(t.rating||5));
+        const av    = t.avatarLetter || (t.name||'V')[0].toUpperCase();
+        const vid   = t.videoUrl ? `<div class="video-thumb"><iframe src="${t.videoUrl}" allowfullscreen loading="lazy"></iframe></div>` : '';
+        return `<div class="review-card ${t.videoUrl?'video-card':''}">
+          ${vid}<div class="stars">${stars}</div>
+          <p class="review-text">"${t.text}"</p>
+          <div class="reviewer">
+            <div class="rav">${av}</div>
+            <div class="reviewer-info"><h4>${t.name}</h4><p>${t.location||''}</p><div class="verified">✅ Verified Purchase</div></div>
+          </div>
+        </div>`;
+      }).join('');
+    }
+  } catch(e){}
+}
+
+// ── META PIXEL ────────────────────────────────────────────────────────
+async function loadPixel() {
+  try {
+    const r = await fetch(API_BASE + '/api/meta');
+    const d = await r.json();
+    if (d.success && d.metaPixel) {
+      const s = document.createElement('script');
+      s.innerHTML = `!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init','${d.metaPixel}');fbq('track','PageView');`;
+      document.head.appendChild(s);
+    }
+  } catch(e){}
+}
+
+// ── VISITOR PING ──────────────────────────────────────────────────────
+(function() {
+  const sid = 'vk_' + Math.random().toString(36).slice(2) + Date.now();
+  function ping() { fetch(API_BASE+'/api/visitors/ping',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({sessionId:sid,page:'/'})}).catch(()=>{}); }
+  ping(); setInterval(ping, 25000);
+})();
+
+// ── STICKY SCROLL ─────────────────────────────────────────────────────
+window.addEventListener('scroll', () => {
+  document.getElementById('stickyBuy').style.display = window.scrollY > 450 ? 'block' : 'none';
+});
+
+// ── FAQ ───────────────────────────────────────────────────────────────
+function toggleFaq(el) {
+  el.classList.toggle('open');
+  el.nextElementSibling.classList.toggle('open');
+}
+
+// ── MODAL ─────────────────────────────────────────────────────────────
+function openModal() {
+  document.getElementById('modalOverlay').classList.add('active');
+  if (window.fbq) fbq('track', 'InitiateCheckout');
+}
+function closeModal() { document.getElementById('modalOverlay').classList.remove('active'); }
+document.getElementById('modalOverlay').addEventListener('click', e => {
+  if (e.target === document.getElementById('modalOverlay')) closeModal();
+});
+
+// ── ORDER SUMMARY ─────────────────────────────────────────────────────
+const BUNDLE_PRICE = { 1: 799, 2: 1499, 3: 1999 };
+function updateSummary() {
+  const qty = parseInt(document.getElementById('fqty').value);
+  const total = BUNDLE_PRICE[qty] || (qty * productData.price);
+  document.getElementById('sumTotal').textContent = '₹' + total.toLocaleString('en-IN');
+}
+
+// ── PINCODE + CITY + STATE ──────────────────────────────────────────
+let _pinDebounce = null;
+
+function onPincodeInput() {
+  const pin = document.getElementById('fpincode').value.replace(/\D/g,'');
+  document.getElementById('fpincode').value = pin;
+  const hint = document.getElementById('pincodeHint');
+  hint.style.display = 'none';
+  clearTimeout(_pinDebounce);
+  if (pin.length === 6) _pinDebounce = setTimeout(() => fetchPincode(pin), 400);
+}
+
+async function fetchPincode(pin) {
+  const hint = document.getElementById('pincodeHint');
+  hint.className = 'pincode-hint loading'; hint.style.display = 'block';
+  hint.textContent = '📍 Fetching...';
+  try {
+    const r = await fetch('/api/pincode/' + pin, { signal: AbortSignal.timeout(7000) });
+    const d = await r.json();
+    // Server returns { Name, District, State } on success
+    const city = d.District || d.Name || '';
+    const state = d.State || '';
+    if (city || state) {
+      if (city) document.getElementById('fcity').value = city;
+      if (state) setStateDropdown(state);
+      hint.className = 'pincode-hint ok';
+      hint.textContent = '✅ ' + (city ? city + ', ' : '') + state;
+      return;
+    }
+  } catch(e) {}
+  // API failed or no data — hide hint silently, let user fill manually
+  hint.style.display = 'none';
+}
+
+function setStateDropdown(state) {
+  const sel = document.getElementById('fstate');
+  // exact match first
+  for (let o of sel.options) {
+    if (o.value.toLowerCase() === state.toLowerCase()) { sel.value = o.value; return; }
+  }
+  // partial match
+  for (let o of sel.options) {
+    if (o.value.toLowerCase().includes(state.toLowerCase()) || state.toLowerCase().includes(o.value.toLowerCase())) { sel.value = o.value; return; }
+  }
+}
+
+
+// ── SUBMIT ORDER ───────────────────────────────────────────────────────
+async function submitOrder() {
+  const name     = document.getElementById('fname').value.trim();
+  const phone    = document.getElementById('fphone').value.trim();
+  const pincode  = document.getElementById('fpincode').value.trim();
+  const city     = document.getElementById('fcity').value.trim();
+  const state    = document.getElementById('fstate').value.trim();
+  const address  = document.getElementById('faddress').value.trim();
+  const landmark = document.getElementById('flandmark').value.trim();
+  const qty      = parseInt(document.getElementById('fqty').value);
+
+  if (!name)                            return alert('Kripya apna poora naam darj karein');
+  if (!/^\d{10}$/.test(phone))          return alert('Kripya 10-digit mobile number darj karein');
+  if (!pincode || pincode.length !== 6) return alert('Kripya 6-digit pincode darj karein');
+  if (!city || !state)                  { document.getElementById('fpincode').classList.add('err'); return alert('City aur state required hain. Pincode check karein ya city manually likhein.'); }
+  if (!address)                         return alert('Kripya apna poora address darj karein');
+
+  const fullAddress = address + (landmark ? ', ' + landmark : '');
+  const total = BUNDLE_PRICE[qty] || (qty * productData.price);
+  const btn = document.getElementById('submitBtn');
+  btn.disabled = true; btn.textContent = '⏳ Order ho raha hai...';
+
+  try {
+    const r = await fetch(API_BASE + '/api/orders', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        name, phone, address: fullAddress, pincode, city, state,
+        product: productData.product, productName: productData.name,
+        productId: productData.productId, quantity: qty,
+        price: productData.price, totalAmount: total
+      })
+    });
+    const d = await r.json();
+    if (d.success) {
+      if (window.fbq) fbq('track', 'Purchase', { value: total, currency: 'INR' });
+      document.getElementById('modalBody').innerHTML = `
+        <div class="success-screen">
+          <span class="success-anim">🎉</span>
+          <h2>Order Place Ho Gaya!</h2>
+          <p>Shukriya, <strong>${name}</strong> Ji! Aapka order mil gaya.</p>
+          <div class="order-id-badge">Order ID: ${d.orderId}</div>
+          <p>📱 Hamari team <strong>${phone}</strong> par call karke confirm karegi.</p>
+          <p>🚚 Expected delivery: <strong>4–7 business days</strong></p>
+          <div class="hindi-success">✅ आपका ऑर्डर सफलतापूर्वक दर्ज हो गया है!<br>हमारी टीम जल्द ही आपसे संपर्क करेगी।<br>धन्यवाद — VacuKart परिवार 🙏</div>
+        </div>`;
+    } else if (d.duplicate) {
+      btn.disabled = false; btn.textContent = '✅ Order Confirm Karo — Cash on Delivery';
+      alert('⚠️ ' + d.error + '\n\nAgar problem ho toh customer care se contact karein.');
+    } else {
+      btn.disabled = false; btn.textContent = '✅ Order Confirm Karo — Cash on Delivery';
+      alert('Kuch problem aa gayi. Dobara try karein.');
+    }
+  } catch(e) {
+    btn.disabled = false; btn.textContent = '✅ Order Confirm Karo — Cash on Delivery';
+    alert('Network error. Internet check karein aur dobara try karein.');
+  }
+}
+
+// ── INIT ────────────────────────────────────────────────────────
+loadProduct();
+loadPixel();
+loadTestimonials();
+</script>
+</body>
+</html>

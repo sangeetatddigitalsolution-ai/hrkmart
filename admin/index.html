@@ -1,0 +1,1123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>VacuKart Admin Panel</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Hind:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --sidebar:#111827;--sidebar2:#1f2937;--green:#16a34a;--green2:#22c55e;
+  --gold:#f59e0b;--red:#ef4444;--orange:#f97316;--blue:#3b82f6;
+  --purple:#8b5cf6;--white:#ffffff;--bg:#f3f4f6;--card:#ffffff;
+  --border:#e5e7eb;--text:#111827;--muted:#6b7280;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Hind',sans-serif;background:var(--bg);color:var(--text);display:flex;min-height:100vh;overflow-x:hidden}
+#loginScreen{display:flex;align-items:center;justify-content:center;min-height:100vh;width:100%;background:linear-gradient(135deg,#0f1e15,#1a3025)}
+.login-box{background:#fff;border-radius:20px;padding:48px 36px;width:100%;max-width:420px;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.3)}
+.login-logo{font-family:'Baloo 2',cursive;font-size:28px;color:var(--green);font-weight:800;margin-bottom:6px}
+.login-box h2{font-size:18px;color:#555;font-weight:400;margin-bottom:30px}
+.login-box input{width:100%;padding:14px 16px;border:2px solid var(--border);border-radius:10px;font-size:15px;margin-bottom:14px;outline:none;font-family:'Hind',sans-serif;transition:.2s}
+.login-box input:focus{border-color:var(--green)}
+.login-btn{width:100%;background:var(--green);color:#fff;border:none;padding:14px;border-radius:10px;font-size:17px;font-weight:700;font-family:'Baloo 2',cursive;cursor:pointer}
+.login-btn:disabled{opacity:.6;cursor:not-allowed}
+.login-err{color:var(--red);font-size:13px;margin-top:8px}
+#app{display:none;flex:1}
+.sidebar{width:240px;background:var(--sidebar);min-height:100vh;display:flex;flex-direction:column;flex-shrink:0;position:fixed;left:0;top:0;bottom:0;z-index:200;transition:.3s}
+.sidebar-logo{padding:22px 20px;font-family:'Baloo 2',cursive;font-size:20px;color:var(--gold);font-weight:800;border-bottom:1px solid rgba(255,255,255,.08)}
+.sidebar-logo span{color:#fff}
+.sidebar-nav{flex:1;padding:12px 0}
+.nav-item{display:flex;align-items:center;gap:12px;padding:13px 20px;color:rgba(255,255,255,.65);cursor:pointer;font-size:14px;font-weight:600;transition:.2s;border-left:3px solid transparent}
+.nav-item:hover{background:rgba(255,255,255,.07);color:#fff}
+.nav-item.active{background:rgba(34,197,94,.12);color:var(--green2);border-left-color:var(--green2)}
+.nav-icon{font-size:18px;width:22px;text-align:center}
+.sidebar-footer{padding:16px 20px;border-top:1px solid rgba(255,255,255,.08)}
+.logout-btn{width:100%;background:rgba(239,68,68,.15);color:var(--red);border:1px solid rgba(239,68,68,.3);padding:10px;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;font-family:'Hind',sans-serif}
+.main-content{margin-left:240px;flex:1;min-height:100vh;padding:24px}
+.top-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;flex-wrap:wrap;gap:12px}
+.top-bar h1{font-family:'Baloo 2',cursive;font-size:24px;font-weight:800}
+.top-bar-right{display:flex;align-items:center;gap:12px}
+.backend-indicator{font-size:12px;padding:5px 12px;border-radius:20px;background:rgba(34,197,94,.1);color:var(--green);border:1px solid rgba(34,197,94,.3);font-weight:600}
+.tab-content{display:none}.tab-content.active{display:block}
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:16px;margin-bottom:24px}
+.visitor-live-card{background:linear-gradient(135deg,#0f2a1a,#1a3a25);border-radius:14px;padding:20px;border-left:4px solid #4ade80;box-shadow:0 2px 8px rgba(0,0,0,.15);color:#fff;display:flex;align-items:center;gap:14px}
+.visitor-live-dot{width:12px;height:12px;border-radius:50%;background:#4ade80;flex-shrink:0;box-shadow:0 0 0 0 rgba(74,222,128,.6);animation:liveVPulse 1.5s infinite}
+@keyframes liveVPulse{0%{box-shadow:0 0 0 0 rgba(74,222,128,.6)}70%{box-shadow:0 0 0 10px rgba(74,222,128,0)}100%{box-shadow:0 0 0 0 rgba(74,222,128,0)}}
+.visitor-live-info .stat-label{color:rgba(255,255,255,.6);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:2px}
+.visitor-live-info .stat-val{font-size:28px;font-weight:800;font-family:'Baloo 2',cursive;color:#4ade80;line-height:1}
+.visitor-live-info .stat-sub{font-size:11px;color:rgba(255,255,255,.45);margin-top:3px}
+.stat-card{background:var(--card);border-radius:14px;padding:20px;border-left:4px solid var(--green);box-shadow:0 2px 8px rgba(0,0,0,.06)}
+.stat-card.gold{border-left-color:var(--gold)}.stat-card.blue{border-left-color:var(--blue)}.stat-card.orange{border-left-color:var(--orange)}.stat-card.red{border-left-color:var(--red)}.stat-card.purple{border-left-color:#8b5cf6}
+.stat-label{font-size:12px;color:var(--muted);font-weight:600;margin-bottom:6px;text-transform:uppercase;letter-spacing:.5px}
+.stat-val{font-size:28px;font-weight:800;font-family:'Baloo 2',cursive;color:var(--text)}
+.stat-sub{font-size:11px;color:var(--muted);margin-top:4px}
+.filter-bar{background:var(--card);border-radius:12px;padding:16px 20px;margin-bottom:20px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;box-shadow:0 2px 8px rgba(0,0,0,.05)}
+.filter-bar label{font-size:13px;font-weight:600;color:var(--muted)}
+.filter-bar input[type=date],.filter-bar select,.filter-bar input[type=text]{padding:8px 12px;border:2px solid var(--border);border-radius:8px;font-size:13px;outline:none;font-family:'Hind',sans-serif}
+.filter-bar input:focus,.filter-bar select:focus{border-color:var(--green)}
+.btn{padding:9px 18px;border-radius:8px;border:none;font-size:13px;font-weight:700;cursor:pointer;font-family:'Hind',sans-serif;display:inline-flex;align-items:center;gap:6px;transition:.2s}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.btn-green{background:var(--green);color:#fff}.btn-green:hover:not(:disabled){background:#15803d}
+.btn-blue{background:var(--blue);color:#fff}.btn-blue:hover:not(:disabled){background:#2563eb}
+.btn-red{background:var(--red);color:#fff}.btn-red:hover:not(:disabled){background:#dc2626}
+.btn-gold{background:var(--gold);color:#fff}.btn-gold:hover:not(:disabled){background:#d97706}
+.btn-orange{background:var(--orange);color:#fff}.btn-orange:hover:not(:disabled){background:#ea580c}
+.btn-purple{background:var(--purple);color:#fff}.btn-purple:hover:not(:disabled){background:#7c3aed}
+.btn-gray{background:#e5e7eb;color:var(--text)}.btn-gray:hover:not(:disabled){background:#d1d5db}
+.btn-outline{background:transparent;border:2px solid var(--green);color:var(--green)}
+.btn-sm{padding:5px 10px;font-size:12px}
+.table-wrap{background:var(--card);border-radius:14px;box-shadow:0 2px 8px rgba(0,0,0,.06);overflow:hidden}
+.table-header{padding:16px 20px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);flex-wrap:wrap;gap:10px}
+.table-header h3{font-size:16px;font-weight:700}
+table{width:100%;border-collapse:collapse;font-size:13px}
+thead{background:#f9fafb}
+th{padding:12px 14px;text-align:left;font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;white-space:nowrap}
+td{padding:10px 14px;border-bottom:1px solid var(--border);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:#fafafa}
+.td-name{font-weight:700;color:var(--text)}.td-phone{color:var(--muted)}
+.badge{padding:4px 10px;border-radius:20px;font-size:11px;font-weight:700;white-space:nowrap}
+.badge-new{background:#dbeafe;color:#1d4ed8}.badge-confirmed{background:#d1fae5;color:#065f46}
+.badge-shipped{background:#fef3c7;color:#92400e}.badge-delivered{background:#dcfce7;color:#14532d}
+.badge-cancelled{background:#fee2e2;color:#991b1b}
+.addr-score{display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:700}
+.addr-score.high{color:var(--green)}.addr-score.mid{color:var(--orange)}.addr-score.low{color:var(--red)}
+.status-select{padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;background:#fff;font-family:'Hind',sans-serif}
+.bulk-bar{background:#1e3a5f;color:#fff;padding:12px 20px;display:none;align-items:center;gap:12px;font-size:13px;font-weight:600;border-radius:10px;margin-bottom:14px;flex-wrap:wrap}
+.bulk-bar.show{display:flex}
+.chart-wrap{background:var(--card);border-radius:14px;padding:20px;box-shadow:0 2px 8px rgba(0,0,0,.06);margin-bottom:24px}
+.chart-wrap h3{font-size:15px;font-weight:700;margin-bottom:16px}
+.bar-chart{display:flex;align-items:flex-end;gap:6px;height:120px;overflow-x:auto;padding-bottom:4px}
+.bar-col{display:flex;flex-direction:column;align-items:center;gap:4px;min-width:40px}
+.bar{background:linear-gradient(to top,var(--green),var(--green2));border-radius:4px 4px 0 0;min-height:4px;width:30px;transition:height .5s}
+.bar-label{font-size:10px;color:var(--muted);white-space:nowrap;transform:rotate(-30deg);transform-origin:top right}
+.products-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px}
+.product-card{background:var(--card);border-radius:14px;padding:20px;box-shadow:0 2px 8px rgba(0,0,0,.06);border:2px solid transparent;transition:.2s}
+.product-card:hover{border-color:var(--green)}
+.product-title{font-weight:700;font-size:15px;margin-bottom:6px}
+.product-price{font-family:'Baloo 2',cursive;font-size:20px;font-weight:800;color:var(--green)}
+.product-mrp{font-size:13px;text-decoration:line-through;color:var(--muted)}
+.product-actions{display:flex;gap:8px;margin-top:14px}
+.product-thumbs{display:flex;gap:8px;margin:10px 0;flex-wrap:wrap}
+.product-thumb{width:60px;height:60px;border-radius:8px;object-fit:cover;border:2px solid var(--border)}
+.product-thumb-placeholder{width:60px;height:60px;border-radius:8px;background:var(--bg);border:2px dashed var(--border);display:flex;align-items:center;justify-content:center;font-size:20px;color:var(--muted)}
+.img-inputs{display:flex;flex-direction:column;gap:8px}
+.img-input-row{display:flex;align-items:center;gap:8px}
+.img-input-row input{flex:1;padding:8px 12px;border:2px solid var(--border);border-radius:8px;font-size:13px;font-family:'Hind',sans-serif;outline:none}
+.img-input-row input:focus{border-color:var(--green)}
+.img-preview{width:36px;height:36px;border-radius:6px;object-fit:cover;border:1px solid var(--border);display:none}
+.img-label{font-size:11px;color:var(--muted);font-weight:600;width:50px;flex-shrink:0}
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:1000;backdrop-filter:blur(4px)}
+.modal-overlay.active{display:flex;align-items:center;justify-content:center;padding:16px}
+.modal{background:#fff;border-radius:16px;width:100%;max-width:580px;max-height:92vh;overflow-y:auto}
+.modal-head{background:var(--sidebar);color:#fff;padding:18px 24px;border-radius:16px 16px 0 0;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:10}
+.modal-head h2{font-size:18px;font-family:'Baloo 2',cursive}
+.modal-close{background:none;border:none;color:#fff;font-size:22px;cursor:pointer}
+.modal-body{padding:24px}
+.form-group{margin-bottom:14px}
+.form-group label{display:block;font-size:12px;font-weight:700;margin-bottom:5px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
+.form-group input,.form-group textarea,.form-group select{width:100%;padding:10px 14px;border:2px solid var(--border);border-radius:8px;font-size:14px;font-family:'Hind',sans-serif;outline:none;transition:.2s}
+.form-group input:focus,.form-group textarea:focus,.form-group select:focus{border-color:var(--green)}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.toast-wrap{position:fixed;top:20px;right:20px;z-index:9999;display:flex;flex-direction:column;gap:10px}
+.toast{background:#1f2937;color:#fff;padding:12px 18px;border-radius:10px;font-size:13px;font-weight:600;box-shadow:0 4px 20px rgba(0,0,0,.3);animation:slideIn .3s;display:flex;align-items:center;gap:8px;min-width:220px}
+.toast.success{border-left:4px solid var(--green2)}.toast.error{border-left:4px solid var(--red)}.toast.info{border-left:4px solid var(--blue)}
+@keyframes slideIn{from{transform:translateX(120%)}to{transform:translateX(0)}}
+.settings-section{background:var(--card);border-radius:14px;padding:24px;margin-bottom:20px;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+.settings-section h3{font-size:16px;font-weight:700;margin-bottom:16px;display:flex;align-items:center;gap:8px}
+.settings-section p{font-size:13px;color:var(--muted);margin-bottom:10px;line-height:1.6}
+.settings-section input{width:100%;padding:11px 14px;border:2px solid var(--border);border-radius:8px;font-size:14px;font-family:'Hind',sans-serif;outline:none;margin-bottom:10px}
+.settings-section input:focus{border-color:var(--green)}
+.sello-status{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:20px;font-size:12px;font-weight:700;margin-bottom:12px}
+.sello-status.connected{background:#d1fae5;color:#065f46}
+.sello-status.disconnected{background:#fee2e2;color:#991b1b}
+.event-pills{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.event-pill{background:#d1fae5;color:#065f46;padding:5px 12px;border-radius:20px;font-size:12px;font-weight:700}
+@keyframes soundPulse{0%,100%{box-shadow:0 0 0 0 rgba(34,197,94,.4)}70%{box-shadow:0 0 0 10px rgba(34,197,94,0)}}
+.sound-active{animation:soundPulse 1.5s infinite}
+.pagination{display:flex;align-items:center;gap:8px;padding:14px 20px;border-top:1px solid var(--border);flex-wrap:wrap}
+.page-btn{padding:6px 12px;border:1px solid var(--border);border-radius:6px;background:#fff;cursor:pointer;font-size:12px;font-weight:600;transition:.2s}
+.page-btn:hover,.page-btn.active{background:var(--green);color:#fff;border-color:var(--green)}
+.page-info{font-size:12px;color:var(--muted);margin-left:auto}
+.hamburger{display:none;background:none;border:none;font-size:24px;cursor:pointer;position:fixed;top:14px;left:14px;z-index:300;color:#fff;background:var(--sidebar);padding:6px 10px;border-radius:8px}
+.awb-badge{background:#ede9fe;color:#5b21b6;padding:3px 8px;border-radius:6px;font-size:11px;font-weight:700;font-family:monospace}
+.ship-btns{display:flex;gap:4px;flex-wrap:wrap}
+@media(max-width:768px){
+  .sidebar{transform:translateX(-100%)}.sidebar.open{transform:translateX(0)}
+  .main-content{margin-left:0;padding:16px}.hamburger{display:block}
+  .stats-grid{grid-template-columns:1fr 1fr}.form-row{grid-template-columns:1fr}
+  table{font-size:11px}th,td{padding:8px 10px}
+}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="loginScreen">
+  <div class="login-box">
+    <div class="login-logo">⚡ VacuKart</div>
+    <h2>Admin Panel</h2>
+    <input type="text" id="loginUser" placeholder="Username" value="admin" autocomplete="username"/>
+    <input type="password" id="loginPass" placeholder="Password" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()"/>
+    <button class="login-btn" id="loginBtn" onclick="doLogin()">🔐 Login</button>
+    <div class="login-err" id="loginErr"></div>
+    <div style="margin-top:12px;font-size:12px;color:#aaa;text-align:left">
+      Backend: <span id="loginApiDisplay" style="font-weight:700;color:#555;word-break:break-all"></span>
+      <span id="loginServerStatus" style="display:block;margin-top:4px;font-style:italic"></span>
+    </div>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app">
+  <button class="hamburger" onclick="toggleSidebar()">☰</button>
+  <div class="sidebar" id="sidebar">
+    <div class="sidebar-logo">Vaidya<span>kart</span></div>
+    <nav class="sidebar-nav">
+      <div class="nav-item active" onclick="showTab('dashboard',this)"><span class="nav-icon">📊</span> Dashboard</div>
+      <div class="nav-item" onclick="showTab('orders',this)"><span class="nav-icon">📦</span> Orders</div>
+      <div class="nav-item" onclick="showTab('shipped',this)"><span class="nav-icon">🚚</span> Shipped ⭐</div>
+      <div class="nav-item" onclick="showTab('products',this)"><span class="nav-icon">🧪</span> Products</div>
+      <div class="nav-item" onclick="showTab('settings',this)"><span class="nav-icon">⚙️</span> Settings</div>
+    </nav>
+    <div class="sidebar-footer">
+      <button class="logout-btn" onclick="logout()">🚪 Logout</button>
+    </div>
+  </div>
+
+  <div class="main-content">
+    <div class="top-bar">
+      <h1 id="pageTitle">📊 Dashboard</h1>
+      <div class="top-bar-right">
+        <div class="backend-indicator" id="backendIndicator">⚪ Connecting...</div>
+        <button class="btn btn-gray" onclick="toggleSound()" id="soundBtn" title="Toggle order sound">🔔 Sound ON</button>
+      </div>
+    </div>
+
+    <!-- DASHBOARD TAB -->
+    <div class="tab-content active" id="tab-dashboard">
+      <div class="filter-bar">
+        <label>Date Range:</label>
+        <input type="date" id="dashFrom"/>
+        <span style="color:var(--muted)">to</span>
+        <input type="date" id="dashTo"/>
+        <button class="btn btn-green" onclick="loadDashboard()">Apply</button>
+        <button class="btn btn-gray" onclick="clearDashFilter()">Clear</button>
+        <button class="btn btn-blue" onclick="setToday()">Today</button>
+        <button class="btn btn-gray" onclick="setLast7()">Last 7 Days</button>
+        <button class="btn btn-gray" onclick="setThisMonth()">This Month</button>
+      </div>
+      <div class="stats-grid">
+        <div class="visitor-live-card"><div class="visitor-live-dot"></div><div class="visitor-live-info"><div class="stat-label">🟢 Live Visitors</div><div class="stat-val" id="s-visitors">—</div><div class="stat-sub">On site right now</div></div></div>
+        <div class="stat-card"><div class="stat-label">Total Orders</div><div class="stat-val" id="s-total">—</div><div class="stat-sub">All time</div></div>
+        <div class="stat-card gold"><div class="stat-label">New Orders</div><div class="stat-val" id="s-new">—</div><div class="stat-sub">Pending action</div></div>
+        <div class="stat-card blue"><div class="stat-label">Confirmed</div><div class="stat-val" id="s-confirmed">—</div><div class="stat-sub">Ready to ship</div></div>
+        <div class="stat-card orange"><div class="stat-label">Shipped</div><div class="stat-val" id="s-shipped">—</div><div class="stat-sub">In transit</div></div>
+        <div class="stat-card purple"><div class="stat-label">Delivered</div><div class="stat-val" id="s-delivered">—</div></div>
+        <div class="stat-card red"><div class="stat-label">Cancelled</div><div class="stat-val" id="s-cancelled">—</div></div>
+        <div class="stat-card" style="border-left-color:#16a34a"><div class="stat-label">Revenue (₹)</div><div class="stat-val" id="s-revenue">—</div><div class="stat-sub">Excl. cancelled</div></div>
+      </div>
+      <div class="chart-wrap"><h3>📈 Daily Orders</h3><div class="bar-chart" id="barChart"></div></div>
+      <div class="table-wrap">
+        <div class="table-header"><h3>🕐 Latest Orders</h3></div>
+        <div style="overflow-x:auto">
+          <table><thead><tr><th>Order ID</th><th>Name</th><th>Phone</th><th>City</th><th>Qty</th><th>Amount</th><th>Status</th><th>Date</th></tr></thead>
+          <tbody id="latestOrdersBody"></tbody></table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ORDERS TAB -->
+    <div class="tab-content" id="tab-orders">
+      <div class="filter-bar">
+        <select id="statusFilter" onchange="loadOrders()">
+          <option value="all">All Status</option>
+          <option value="new">New</option>
+          <option value="confirmed">Confirmed</option>
+          <option value="shipped">Shipped</option>
+          <option value="delivered">Delivered</option>
+          <option value="cancelled">Cancelled</option>
+        </select>
+        <input type="text" id="searchFilter" placeholder="Search name/phone..." oninput="loadOrders()" style="min-width:180px"/>
+        <input type="date" id="ordersFrom" onchange="loadOrders()"/>
+        <span style="color:var(--muted)">to</span>
+        <input type="date" id="ordersTo" onchange="loadOrders()"/>
+        <select id="rowsPerPage" onchange="currentPage=1;loadOrders()">
+          <option value="50">50/page</option>
+          <option value="100">100/page</option>
+          <option value="200">200/page</option>
+          <option value="500">500/page</option>
+        </select>
+        <button class="btn btn-green" onclick="exportCSV()">⬇️ CSV</button>
+      </div>
+      <div class="bulk-bar" id="bulkBar">
+        <span id="bulkCount">0 selected</span>
+        <select id="bulkStatus">
+          <option value="">Change Status...</option>
+          <option value="confirmed">Confirmed</option>
+          <option value="shipped">Shipped</option>
+          <option value="delivered">Delivered</option>
+          <option value="cancelled">Cancelled</option>
+        </select>
+        <button class="btn btn-gold btn-sm" onclick="applyBulkStatus()">✅ Apply</button>
+        <button class="btn btn-orange btn-sm" onclick="bulkShipManual()">📦 Ship (Manual)</button>
+        <button class="btn btn-purple btn-sm" onclick="bulkShipSelloship()">🚀 Ship via Selloship</button>
+        <button class="btn btn-gray btn-sm" onclick="clearSelection()">✕ Clear</button>
+      </div>
+      <div class="table-wrap">
+        <div class="table-header">
+          <h3>📦 Orders</h3>
+          <label style="font-size:13px;font-weight:600;cursor:pointer">
+            <input type="checkbox" id="selectAll" onchange="toggleSelectAll()" style="margin-right:4px"/>
+            Select All
+          </label>
+        </div>
+        <div style="overflow-x:auto">
+          <table>
+            <thead><tr>
+              <th><input type="checkbox" id="selectAllTop" onchange="toggleSelectAll()"/></th>
+              <th>#</th><th>Name</th><th>Phone</th><th>City</th>
+              <th>Product</th><th>Qty</th><th>Amount</th>
+              <th>Score</th><th>Status</th><th>AWB</th><th>Date</th><th>Actions</th>
+            </tr></thead>
+            <tbody id="ordersBody"></tbody>
+          </table>
+        </div>
+        <div class="pagination" id="pagination"></div>
+      </div>
+    </div>
+
+    <!-- SHIPPED ORDERS TAB ⭐ NEW -->
+    <div class="tab-content" id="tab-shipped">
+      <div class="filter-bar">
+        <input type="text" id="shippedSearch" placeholder="Search name/phone/AWB..." oninput="loadShippedOrders()" style="min-width:200px"/>
+        <input type="date" id="shippedFrom" onchange="loadShippedOrders()"/>
+        <span style="color:var(--muted)">to</span>
+        <input type="date" id="shippedTo" onchange="loadShippedOrders()"/>
+        <select id="shippedRowsPerPage" onchange="shippedPage=1;loadShippedOrders()">
+          <option value="50">50/page</option>
+          <option value="100">100/page</option>
+          <option value="200">200/page</option>
+          <option value="500">500/page</option>
+        </select>
+        <button class="btn btn-green" onclick="exportShippedCSV()">⬇️ CSV</button>
+      </div>
+      <div class="table-wrap">
+        <div class="table-header">
+          <h3>🚚 Shipped & Delivered Orders</h3>
+        </div>
+        <div style="overflow-x:auto">
+          <table>
+            <thead><tr>
+              <th>#</th><th>Name</th><th>Phone</th><th>City</th><th>Pincode</th>
+              <th>Product</th><th>Qty</th><th>Amount</th>
+              <th>Status</th><th>AWB</th><th>Shipped Date</th><th>View</th>
+            </tr></thead>
+            <tbody id="shippedBody"></tbody>
+          </table>
+        </div>
+        <div class="pagination" id="shippedPagination"></div>
+      </div>
+    </div>
+
+    <!-- PRODUCTS TAB -->
+    <div class="tab-content" id="tab-products">
+      <div style="display:flex;justify-content:flex-end;margin-bottom:16px">
+        <button class="btn btn-green" onclick="openProductModal()">+ Add Product</button>
+      </div>
+      <div class="products-grid" id="productsGrid"></div>
+    </div>
+
+    <!-- SETTINGS TAB -->
+    <div class="tab-content" id="tab-settings">
+      <div class="settings-section">
+        <h3>🔗 Backend URL</h3>
+        <p>Enter your deployed Render backend URL.</p>
+        <input type="url" id="backendUrlInput" placeholder="https://YOUR-BACKEND-URL.onrender.com"/>
+        <button class="btn btn-green" onclick="saveBackendUrl()">💾 Save & Connect</button>
+        <p style="margin-top:10px;font-size:12px;color:var(--muted)">Current: <strong id="currentBackendDisplay">Not set</strong></p>
+      </div>
+      <div class="settings-section">
+        <h3>🚚 Selloship Integration</h3>
+        <p>Connect your Selloship account to auto-generate waybills and ship orders directly.</p>
+        <div id="selloStatusBadge" class="sello-status disconnected">⚫ Not Connected</div>
+        <div class="form-row" style="margin-bottom:10px">
+          <div>
+            <label style="font-size:12px;font-weight:700;color:var(--muted);display:block;margin-bottom:4px">USERNAME</label>
+            <input type="text" id="selloUsernameInput" placeholder="your@email.com" style="margin-bottom:0"/>
+          </div>
+          <div>
+            <label style="font-size:12px;font-weight:700;color:var(--muted);display:block;margin-bottom:4px">PASSWORD</label>
+            <input type="password" id="selloPasswordInput" placeholder="••••••••" style="margin-bottom:0"/>
+          </div>
+        </div>
+        <div style="display:flex;gap:10px;margin-top:10px">
+          <button class="btn btn-blue" onclick="testSelloship()">🔌 Test Connection</button>
+          <button class="btn btn-green" onclick="saveSelloship()">💾 Save Credentials</button>
+        </div>
+        <p style="margin-top:14px;font-size:12px;color:var(--muted)">
+          📌 Webhook URL for Selloship dashboard: <strong id="webhookUrl"></strong>
+        </p>
+      </div>
+      <div class="settings-section">
+        <h3>📊 Meta Pixel</h3>
+        <p>Enter your Facebook Pixel ID. Events tracked: PageView, InitiateCheckout, Purchase</p>
+        <input type="text" id="pixelInput" placeholder="Enter Meta Pixel ID (e.g. 1234567890)"/>
+        <button class="btn btn-blue" onclick="savePixel()">💾 Save Pixel</button>
+        <div style="margin-top:10px;font-size:13px;color:var(--muted)">Active Pixel: <strong id="activePixel">None</strong></div>
+        <div class="event-pills" style="margin-top:12px">
+          <div class="event-pill">📄 PageView</div>
+          <div class="event-pill">🛒 InitiateCheckout</div>
+          <div class="event-pill">💰 Purchase</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- PRODUCT MODAL -->
+<div class="modal-overlay" id="productModal">
+  <div class="modal">
+    <div class="modal-head">
+      <h2 id="productModalTitle">Add Product</h2>
+      <button class="modal-close" onclick="closeProductModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="pId"/>
+      <div class="form-row">
+        <div class="form-group"><label>Product Name</label><input id="pName" placeholder="3-in-1 Vacuum Cleaner"/></div>
+        <div class="form-group"><label>Price (₹)</label><input id="pPrice" type="number" placeholder="599"/></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>MRP (₹)</label><input id="pMrp" type="number" placeholder="1299"/></div>
+        <div class="form-group"><label>Stock</label><input id="pStock" type="number" placeholder="100"/></div>
+      </div>
+      <div class="form-group"><label>Description</label><textarea id="pDesc" rows="3" placeholder="Product description..."></textarea></div>
+      <div class="form-group">
+        <label>Product Images (up to 3)</label>
+        <div class="img-inputs">
+          <div class="img-input-row"><span class="img-label">Image 1</span><input id="pImg1" placeholder="https://... (main image)" oninput="previewImg(this,'prev1')"/><img id="prev1" class="img-preview" src="" alt="preview"/></div>
+          <div class="img-input-row"><span class="img-label">Image 2</span><input id="pImg2" placeholder="https://... (optional)" oninput="previewImg(this,'prev2')"/><img id="prev2" class="img-preview" src="" alt="preview"/></div>
+          <div class="img-input-row"><span class="img-label">Image 3</span><input id="pImg3" placeholder="https://... (optional)" oninput="previewImg(this,'prev3')"/><img id="prev3" class="img-preview" src="" alt="preview"/></div>
+        </div>
+      </div>
+      <div class="form-group"><label>Benefits (comma separated)</label><input id="pBenefits" placeholder="Benefit 1, Benefit 2, ..."/></div>
+      <div class="form-group"><label>Ingredients</label><input id="pIngr" placeholder="Karela, Jamun, Methi..."/></div>
+      <div class="form-group"><label>How to Use</label><textarea id="pHtu" rows="2" placeholder="Mix 1 tsp in warm water..."></textarea></div>
+      <div class="form-group"><label>Active</label>
+        <select id="pActive"><option value="true">Yes (Active)</option><option value="false">No (Hidden)</option></select>
+      </div>
+      <button class="btn btn-green" style="width:100%;padding:13px;font-size:15px" onclick="saveProduct()">💾 Save Product</button>
+    </div>
+  </div>
+</div>
+
+<!-- ORDER EDIT MODAL -->
+<div class="modal-overlay" id="editOrderModal">
+  <div class="modal">
+    <div class="modal-head" style="background:#1e3a5f">
+      <h2>✏️ Edit Order</h2>
+      <button class="modal-close" onclick="closeEditOrderModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="eoId"/>
+      <div class="form-row">
+        <div class="form-group"><label>Customer Name</label><input id="eoName" placeholder="Full Name"/></div>
+        <div class="form-group"><label>Phone</label><input id="eoPhone" placeholder="10-digit phone"/></div>
+      </div>
+      <div class="form-group"><label>Address</label><textarea id="eoAddress" rows="2" placeholder="Full delivery address"></textarea></div>
+      <div class="form-row">
+        <div class="form-group"><label>Pincode</label><input id="eoPincode" placeholder="6-digit pincode" oninput="fetchPincodeAdmin()"/><small id="pincodeHintAdmin" style="display:none;margin-top:4px;font-size:12px"></small></div>
+        <div class="form-group"><label>City</label><input id="eoCity" placeholder="City"/></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>State</label><input id="eoState" placeholder="State"/></div>
+        <div class="form-group"><label>Quantity</label><input id="eoQty" type="number" min="1" placeholder="1"/></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>Product Name</label><input id="eoProduct" placeholder="Product name"/></div>
+        <div class="form-group"><label>Total Amount (₹)</label><input id="eoAmount" type="number" placeholder="599"/></div>
+      </div>
+      <button class="btn btn-green" style="width:100%;padding:13px;font-size:15px;margin-top:6px" onclick="saveOrderEdit()">💾 Save Changes</button>
+    </div>
+  </div>
+</div>
+
+<!-- SHIP MODAL (single order) -->
+<div class="modal-overlay" id="shipModal">
+  <div class="modal" style="max-width:440px">
+    <div class="modal-head" style="background:#5b21b6">
+      <h2>🚚 Ship Order</h2>
+      <button class="modal-close" onclick="closeShipModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="shipOrderId"/>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:16px">Choose how to ship this order:</p>
+      <div style="display:grid;gap:12px">
+        <button class="btn btn-purple" style="width:100%;padding:14px;font-size:15px;justify-content:center" onclick="doShipSelloship()">
+          🚀 Ship via Selloship<br><small style="font-weight:400;opacity:.8">Auto-generate AWB + waybill label</small>
+        </button>
+        <div style="border:2px solid var(--border);border-radius:10px;padding:16px">
+          <p style="font-size:13px;font-weight:700;margin-bottom:12px;color:var(--text)">📦 Ship Manually (without Selloship)</p>
+          <div class="form-group"><label>AWB Number (optional)</label><input id="manualAwb" placeholder="Enter tracking number if any"/></div>
+          <div class="form-group"><label>Courier Name (optional)</label><input id="manualCourier" placeholder="e.g. DTDC, Delhivery..."/></div>
+          <button class="btn btn-orange" style="width:100%;padding:12px;justify-content:center" onclick="doShipManual()">✅ Mark as Shipped</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast-wrap" id="toastWrap"></div>
+
+<script>
+let API = localStorage.getItem('vc_backend_url') || 'https://YOUR-BACKEND-URL.onrender.com';
+let token = sessionStorage.getItem('vk_token') || '';
+let soundEnabled = localStorage.getItem('vk_sound') !== 'off';
+let currentPage = 1;
+let selectedIds = new Set();
+let lastOrderCount = null;
+let pollInterval = null;
+let editingProductId = null;
+
+function authHeaders(extra = {}) {
+  return { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token, ...extra };
+}
+
+async function fetchWithTimeout(url, options = {}, timeoutMs = 20000) {
+  const controller = new AbortController();
+  const id = setTimeout(() => controller.abort(), timeoutMs);
+  try { const r = await fetch(url, { ...options, signal: controller.signal }); clearTimeout(id); return r; }
+  catch(e) { clearTimeout(id); throw e; }
+}
+
+async function doLogin() {
+  const username = document.getElementById('loginUser').value.trim();
+  const password = document.getElementById('loginPass').value.trim();
+  if (!username || !password) return showErr('Please enter credentials');
+  const btn = document.getElementById('loginBtn');
+  btn.disabled = true;
+  if (!API || API === 'REPLACE_WITH_BACKEND_URL') { showErr('Backend URL not set.'); btn.disabled = false; return; }
+  for (let attempt = 1; attempt <= 2; attempt++) {
+    btn.textContent = attempt === 1 ? 'Connecting...' : '⏳ Waking server...';
+    try {
+      const r = await fetchWithTimeout(API + '/api/admin/login', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({username,password}) }, attempt===1?12000:40000);
+      const d = await r.json();
+      if (d.success) {
+        token = d.token; sessionStorage.setItem('vk_token', token);
+        document.getElementById('loginScreen').style.display = 'none';
+        document.getElementById('app').style.display = 'flex';
+        initApp(); return;
+      } else { showErr(d.error || 'Invalid credentials'); btn.disabled = false; btn.textContent = '🔐 Login'; return; }
+    } catch(e) {
+      if (attempt < 2) { showErr('⏳ Server is waking up... retrying.'); await new Promise(res => setTimeout(res, 3000)); }
+      else { showErr(e.name === 'AbortError' ? 'Server timed out. Wait 30s and retry.' : 'Cannot reach server.'); }
+    }
+  }
+  btn.disabled = false; btn.textContent = '🔐 Login';
+}
+function showErr(msg) { document.getElementById('loginErr').textContent = '⚠️ ' + msg; }
+
+window.onload = () => {
+  if (token && API) {
+    document.getElementById('loginScreen').style.display = 'none';
+    document.getElementById('app').style.display = 'flex';
+    initApp();
+  } else {
+    document.getElementById('loginApiDisplay').textContent = API || 'Not set';
+    document.getElementById('loginServerStatus').textContent = 'Checking server...';
+    fetch(API + '/').then(r => {
+      document.getElementById('loginServerStatus').textContent = r.ok ? '🟢 Server is online' : '🔴 Server returned an error';
+    }).catch(() => { document.getElementById('loginServerStatus').textContent = '🔴 Offline or waking up — try logging in anyway'; });
+  }
+  document.getElementById('backendUrlInput').value = API;
+  document.getElementById('currentBackendDisplay').textContent = API;
+  document.getElementById('webhookUrl').textContent = API + '/api/shipping/webhook';
+  updateSoundBtn();
+};
+
+function logout() {
+  fetch(API + '/api/admin/logout', { method:'POST', headers:authHeaders() }).catch(()=>{});
+  sessionStorage.removeItem('vk_token'); token = '';
+  clearInterval(pollInterval);
+  document.getElementById('loginScreen').style.display = 'flex';
+  document.getElementById('app').style.display = 'none';
+}
+
+function initApp() { checkBackendStatus(); loadDashboard(); loadSettings(); startPolling(); }
+
+async function checkBackendStatus() {
+  const el = document.getElementById('backendIndicator');
+  try {
+    const r = await fetch(API + '/');
+    if (r.ok) { el.textContent='🟢 Backend Connected'; el.style.background='rgba(34,197,94,.1)'; el.style.color='#16a34a'; }
+    else { el.textContent='🔴 Backend Error'; el.style.background='rgba(239,68,68,.1)'; el.style.color='#ef4444'; }
+  } catch(e) { el.textContent='🔴 Backend Offline'; el.style.background='rgba(239,68,68,.1)'; el.style.color='#ef4444'; }
+}
+
+function toggleSound() { soundEnabled=!soundEnabled; localStorage.setItem('vk_sound',soundEnabled?'on':'off'); updateSoundBtn(); toast(soundEnabled?'🔔 Order sound ON':'🔕 Order sound OFF','info'); }
+function updateSoundBtn() { const btn=document.getElementById('soundBtn'); btn.textContent=soundEnabled?'🔔 Sound ON':'🔕 Sound OFF'; btn.className=soundEnabled?'btn btn-green sound-active':'btn btn-gray'; }
+function playOrderSound() {
+  try {
+    const ctx = new (window.AudioContext||window.webkitAudioContext)();
+    [523,659,784].forEach((freq,i) => {
+      const o=ctx.createOscillator(); const g=ctx.createGain();
+      o.connect(g); g.connect(ctx.destination); o.frequency.value=freq; o.type='sine';
+      g.gain.setValueAtTime(0.3,ctx.currentTime+i*.15); g.gain.exponentialRampToValueAtTime(0.01,ctx.currentTime+i*.15+.3);
+      o.start(ctx.currentTime+i*.15); o.stop(ctx.currentTime+i*.15+.3);
+    });
+  } catch(e){}
+}
+function startPolling() {
+  if (pollInterval) clearInterval(pollInterval);
+  pollInterval = setInterval(async () => {
+    try {
+      const r = await fetch(API+'/api/stats', {headers:authHeaders()}); const d=await r.json();
+      if (d.success) {
+        if (lastOrderCount!==null && d.newOrders>lastOrderCount) {
+          if (soundEnabled) playOrderSound(); toast('🛒 New order received!','success');
+          const active=document.querySelector('.nav-item.active'); const curTab=active?.textContent?.trim()||'';
+          if (curTab.includes('Dashboard')) loadDashboard(); if (curTab.includes('Orders')) loadOrders();
+        }
+        lastOrderCount=d.newOrders;
+      }
+    } catch(e){}
+  }, 30000);
+  loadLiveVisitors(); setInterval(loadLiveVisitors, 10000);
+}
+async function loadLiveVisitors() {
+  try { const r=await fetch(API+'/api/visitors/live',{headers:authHeaders()}); const d=await r.json(); if(d.success){const el=document.getElementById('s-visitors');if(el)el.textContent=d.count;} } catch(e){}
+}
+
+function showTab(tab, el) {
+  document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  document.getElementById('tab-'+tab).classList.add('active');
+  if(el)el.classList.add('active');
+  const titles={dashboard:'📊 Dashboard',orders:'📦 Orders',shipped:'🚚 Shipped Orders',products:'🧪 Products',settings:'⚙️ Settings'};
+  document.getElementById('pageTitle').textContent=titles[tab];
+  if(tab==='dashboard')loadDashboard(); 
+  if(tab==='orders')loadOrders();
+  if(tab==='shipped')loadShippedOrders();
+  if(tab==='products')loadProducts(); 
+  if(tab==='settings')loadSettings();
+  if(window.innerWidth<768)document.getElementById('sidebar').classList.remove('open');
+}
+function toggleSidebar(){document.getElementById('sidebar').classList.toggle('open');}
+
+function clearDashFilter(){document.getElementById('dashFrom').value='';document.getElementById('dashTo').value='';loadDashboard();}
+function setToday(){const t=new Date().toISOString().split('T')[0];document.getElementById('dashFrom').value=t;document.getElementById('dashTo').value=t;loadDashboard();}
+function setLast7(){const t=new Date();const f=new Date(t-6*86400000);document.getElementById('dashFrom').value=f.toISOString().split('T')[0];document.getElementById('dashTo').value=t.toISOString().split('T')[0];loadDashboard();}
+function setThisMonth(){const t=new Date();document.getElementById('dashFrom').value=t.getFullYear()+'-'+String(t.getMonth()+1).padStart(2,'0')+'-01';document.getElementById('dashTo').value=t.toISOString().split('T')[0];loadDashboard();}
+
+let _dashCache=null,_dashCacheTime=0;
+async function loadDashboard() {
+  const from=document.getElementById('dashFrom')?.value||''; const to=document.getElementById('dashTo')?.value||'';
+  const cacheKey=from+to;
+  if(_dashCache&&(Date.now()-_dashCacheTime<60000)&&_dashCache.key===cacheKey){renderDashboard(_dashCache.data);return;}
+  let url=API+'/api/stats'; const params=[];
+  if(from)params.push('from='+from); if(to)params.push('to='+to);
+  if(params.length)url+='?'+params.join('&');
+  try {
+    const r=await fetch(url,{headers:authHeaders()}); const d=await r.json();
+    if(!d.success){toast('Could not load dashboard','error');return;}
+    _dashCache={data:d,key:from+to}; _dashCacheTime=Date.now();
+    renderDashboard(d);
+  } catch(e){console.error('Dashboard error',e);}
+}
+function renderDashboard(d) {
+  document.getElementById('s-total').textContent=d.totalOrders;
+  document.getElementById('s-new').textContent=d.newOrders;
+  document.getElementById('s-confirmed').textContent=d.confirmedOrders;
+  document.getElementById('s-shipped').textContent=d.shippedOrders;
+  document.getElementById('s-delivered').textContent=d.deliveredOrders;
+  document.getElementById('s-cancelled').textContent=d.cancelledOrders;
+  document.getElementById('s-revenue').textContent='₹'+(d.revenue||0).toLocaleString('en-IN');
+  const chart=document.getElementById('barChart');
+  if(d.chartData&&d.chartData.length){
+    const maxC=Math.max(...d.chartData.map(x=>x.count));
+    chart.innerHTML=d.chartData.map(c=>{const h=maxC>0?Math.max(4,Math.round((c.count/maxC)*100)):4;const label=c._id.slice(5);return`<div class="bar-col" title="${c._id}: ${c.count} orders"><div style="font-size:10px;color:var(--muted);margin-bottom:2px">${c.count}</div><div class="bar" style="height:${h}px"></div><div class="bar-label">${label}</div></div>`;}).join('');
+  }else{chart.innerHTML='<div style="color:var(--muted);font-size:13px;padding:20px">No data for selected range</div>';}
+  const tbody=document.getElementById('latestOrdersBody');
+  if(d.latestOrders&&d.latestOrders.length){
+    tbody.innerHTML=d.latestOrders.map(o=>`<tr><td style="font-size:11px;font-family:monospace;color:var(--muted)">${o._id.slice(-8)}</td><td class="td-name">${o.name}</td><td class="td-phone">${o.phone}</td><td>${o.city||'—'}</td><td>${o.quantity}</td><td style="font-weight:700">₹${o.totalAmount}</td><td><span class="badge badge-${o.status}">${o.status}</span></td><td style="font-size:11px;color:var(--muted)">${fmtDate(o.createdAt)}</td></tr>`).join('');
+  }else{tbody.innerHTML='<tr><td colspan="8" style="text-align:center;padding:30px;color:var(--muted)">No orders yet</td></tr>';}
+}
+
+async function loadOrders() {
+  const status=document.getElementById('statusFilter').value;
+  const search=document.getElementById('searchFilter').value;
+  const from=document.getElementById('ordersFrom').value;
+  const to=document.getElementById('ordersTo').value;
+  const limit=document.getElementById('rowsPerPage').value;
+  let url=`${API}/api/orders?page=${currentPage}&limit=${limit}`;
+  if(status!=='all')url+='&status='+status;
+  if(search)url+='&search='+encodeURIComponent(search);
+  if(from)url+='&from='+from; if(to)url+='&to='+to;
+  try {
+    const r=await fetch(url,{headers:authHeaders()}); const d=await r.json();
+    if(!d.success){toast('Could not load orders','error');return;}
+    renderOrders(d.orders); renderPagination(d.total,d.pages,d.page,limit);
+  } catch(e){toast('Failed to load orders','error');}
+}
+
+// ─── SHIPPED ORDERS ⭐ NEW ───────────────────────────────────────────
+let shippedPage = 1;
+async function loadShippedOrders() {
+  const search=document.getElementById('shippedSearch').value;
+  const from=document.getElementById('shippedFrom').value;
+  const to=document.getElementById('shippedTo').value;
+  const limit=document.getElementById('shippedRowsPerPage').value;
+  let url=`${API}/api/orders/shipped?page=${shippedPage}&limit=${limit}`;
+  if(search)url+='&search='+encodeURIComponent(search);
+  if(from)url+='&from='+from; if(to)url+='&to='+to;
+  try {
+    const r=await fetch(url,{headers:authHeaders()}); const d=await r.json();
+    if(!d.success){toast('Could not load shipped orders','error');return;}
+    renderShippedOrders(d.orders); renderShippedPagination(d.total,d.page,limit);
+  } catch(e){toast('Failed to load shipped orders','error');}
+}
+
+function renderShippedOrders(orders) {
+  const tb=document.getElementById('shippedBody');
+  if(!orders.length){tb.innerHTML='<tr><td colspan="12" style="text-align:center;padding:30px;color:var(--muted)">No shipped orders found</td></tr>';return;}
+  tb.innerHTML=orders.map((o)=>{
+    const statusBadge=o.status==='delivered'?'<span class="badge badge-delivered">Delivered</span>':'<span class="badge badge-shipped">Shipped</span>';
+    const awbHtml=o.awb?`<code style="background:#f0f0f0;padding:4px 8px;border-radius:4px;font-size:11px">${escHtml(o.awb)}</code>`:'<span style="color:var(--muted);font-size:11px">—</span>';
+    return`<tr>
+      <td style="font-size:11px;color:var(--muted);font-family:monospace">${o._id.slice(-8)}</td>
+      <td class="td-name">${escHtml(o.name)}</td>
+      <td class="td-phone">${o.phone}</td>
+      <td>${escHtml(o.city||'—')}</td>
+      <td style="font-weight:700;font-family:monospace">${o.pincode}</td>
+      <td style="max-width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${escHtml(o.productName||'')}">${escHtml(o.productName||'—')}</td>
+      <td style="text-align:center">${o.quantity}</td>
+      <td style="font-weight:700;white-space:nowrap">₹${o.totalAmount}</td>
+      <td>${statusBadge}</td>
+      <td>${awbHtml}</td>
+      <td style="font-size:11px;color:var(--muted);white-space:nowrap">${fmtDate(o.shippedAt||o.createdAt)}</td>
+      <td>
+        <button class="btn btn-blue btn-sm" onclick="alert('Order ID: ${o._id}\nName: ${escHtml(o.name)}\nPhone: ${o.phone}\nAddress: ${escHtml(o.address)}\nCity: ${o.city}, ${o.state}\nPincode: ${o.pincode}\nStatus: ${o.status}\nAWB: ${o.awb||'N/A'}')">👁️</button>
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+function renderShippedPagination(total,page,limit) {
+  const wrap=document.getElementById('shippedPagination');
+  const pages=Math.ceil(total/limit);
+  if(pages<=1){wrap.innerHTML=`<div class="page-info">Showing ${total} orders</div>`;return;}
+  let btns='';
+  if(page>1)btns+=`<button class="page-btn" onclick="goShippedPage(${page-1})">← Prev</button>`;
+  const start=Math.max(1,page-2),end=Math.min(pages,page+2);
+  for(let p=start;p<=end;p++)btns+=`<button class="page-btn ${p===page?'active':''}" onclick="goShippedPage(${p})">${p}</button>`;
+  if(page<pages)btns+=`<button class="page-btn" onclick="goShippedPage(${page+1})">Next →</button>`;
+  wrap.innerHTML=btns+`<div class="page-info">Page ${page} of ${pages} | ${total} total</div>`;
+}
+
+function goShippedPage(p){shippedPage=p;loadShippedOrders();}
+function exportShippedCSV(){
+  const rows=[['Order ID','Name','Phone','City','Pincode','Product','Qty','Amount','Status','AWB','Shipped Date']];
+  document.querySelectorAll('#shippedBody tr').forEach(tr=>{
+    const cells=tr.querySelectorAll('td');
+    if(cells.length){
+      rows.push([
+        cells[0].textContent,cells[1].textContent,cells[2].textContent,cells[3].textContent,
+        cells[4].textContent,cells[5].textContent,cells[6].textContent,cells[7].textContent,
+        cells[8].textContent,cells[9].textContent,cells[10].textContent
+      ]);
+    }
+  });
+  const csv=rows.map(r=>r.map(c=>`"${c.replace(/"/g,'""')}"`).join(',')).join('\n');
+  downloadCSV(csv,'shipped-orders');
+}
+
+function renderOrders(orders) {
+  const tb=document.getElementById('ordersBody');
+  if(!orders.length){tb.innerHTML='<tr><td colspan="13" style="text-align:center;padding:30px;color:var(--muted)">No orders found</td></tr>';return;}
+  tb.innerHTML=orders.map((o)=>{
+    const checked=selectedIds.has(o._id)?'checked':'';
+    const score=o.addressScore||0;
+    const scoreClass=score>=80?'high':score>=50?'mid':'low';
+    const scoreEmoji=score>=80?'✅':score>=50?'⚠️':'❌';
+    const awbHtml=o.awb?`<span class="awb-badge" title="Courier: ${escHtml(o.courierName||'')}">${escHtml(o.awb)}</span>`:'<span style="color:var(--muted);font-size:11px">—</span>';
+    return`<tr>
+      <td><input type="checkbox" data-id="${o._id}" ${checked} onchange="toggleSelect('${o._id}',this)"/></td>
+      <td style="font-size:11px;color:var(--muted);font-family:monospace">${o._id.slice(-8)}</td>
+      <td class="td-name">${escHtml(o.name)}</td>
+      <td class="td-phone">${o.phone}</td>
+      <td>${escHtml(o.city||'—')}</td>
+      <td style="max-width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${escHtml(o.productName||'')}">${escHtml(o.productName||'—')}</td>
+      <td style="text-align:center">${o.quantity}</td>
+      <td style="font-weight:700;white-space:nowrap">₹${o.totalAmount}</td>
+      <td><span class="addr-score ${scoreClass}">${scoreEmoji} ${score}%</span></td>
+      <td><select class="status-select" onchange="updateStatus('${o._id}',this.value)">${['new','confirmed','shipped','delivered','cancelled'].map(s=>`<option value="${s}" ${o.status===s?'selected':''}>${s}</option>`).join('')}</select></td>
+      <td>${awbHtml}</td>
+      <td style="font-size:11px;color:var(--muted);white-space:nowrap">${fmtDate(o.createdAt)}</td>
+      <td>
+        <div class="ship-btns">
+          <button class="btn btn-blue btn-sm" onclick="openEditOrderModal('${o._id}')" title="Edit Order">✏️</button>
+          <button class="btn btn-purple btn-sm" onclick="openShipModal('${o._id}')" title="Ship Order">🚚</button>
+          <button class="btn btn-red btn-sm" onclick="deleteOrder('${o._id}')" title="Delete">🗑</button>
+        </div>
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+function renderPagination(total,pages,page,limit) {
+  const wrap=document.getElementById('pagination');
+  if(pages<=1){wrap.innerHTML=`<div class="page-info">Showing ${total} orders</div>`;return;}
+  let btns='';
+  if(page>1)btns+=`<button class="page-btn" onclick="goPage(${page-1})">← Prev</button>`;
+  const start=Math.max(1,page-2),end=Math.min(pages,page+2);
+  for(let p=start;p<=end;p++)btns+=`<button class="page-btn ${p===page?'active':''}" onclick="goPage(${p})">${p}</button>`;
+  if(page<pages)btns+=`<button class="page-btn" onclick="goPage(${page+1})">Next →</button>`;
+  wrap.innerHTML=btns+`<div class="page-info">Page ${page} of ${pages} | ${total} total</div>`;
+}
+function goPage(p){currentPage=p;loadOrders();}
+
+function toggleSelect(id,cb){if(cb.checked)selectedIds.add(id);else selectedIds.delete(id);updateBulkBar();}
+function toggleSelectAll(){
+  const checked=document.getElementById('selectAllTop').checked||document.getElementById('selectAll').checked;
+  document.querySelectorAll('#ordersBody input[type=checkbox]').forEach(cb=>{const id=cb.dataset.id;if(id){cb.checked=checked;if(checked)selectedIds.add(id);else selectedIds.delete(id);}});
+  updateBulkBar();
+}
+function clearSelection(){selectedIds.clear();document.querySelectorAll('#ordersBody input[type=checkbox]').forEach(cb=>cb.checked=false);updateBulkBar();}
+function updateBulkBar(){const n=selectedIds.size;document.getElementById('bulkCount').textContent=n+' order'+(n!==1?'s':'')+' selected';document.getElementById('bulkBar').classList.toggle('show',n>0);}
+
+async function applyBulkStatus() {
+  const status=document.getElementById('bulkStatus').value;
+  if(!status)return toast('Please select a status','error');
+  if(!selectedIds.size)return toast('No orders selected','error');
+  if(!confirm(`Mark ${selectedIds.size} orders as "${status}"?`))return;
+  try {
+    const r=await fetch(API+'/api/orders/bulk/status',{method:'PUT',headers:authHeaders(),body:JSON.stringify({ids:[...selectedIds],status})});
+    const d=await r.json();
+    if(d.success){
+      toast(`✅ ${d.updated} orders updated to "${status}"`, 'success');
+      clearSelection();
+      loadOrders();
+      if(status==='shipped' || status==='delivered') loadShippedOrders();
+    }
+    else toast('Bulk update failed: '+(d.error||''),'error');
+  } catch(e){toast('Network error','error');}
+}
+
+async function bulkShipManual() {
+  if(!selectedIds.size)return toast('No orders selected','error');
+  if(!confirm(`Mark ${selectedIds.size} orders as shipped manually?`))return;
+  try {
+    const r=await fetch(API+'/api/orders/bulk/ship-manual',{method:'POST',headers:authHeaders(),body:JSON.stringify({ids:[...selectedIds]})});
+    const d=await r.json();
+    if(d.success){
+      toast(`✅ ${d.updated} orders marked as shipped`,'success');
+      clearSelection();
+      loadOrders();
+      loadShippedOrders(); // refresh shipped tab
+    }
+    else toast('Bulk ship failed: '+(d.error||''),'error');
+  } catch(e){toast('Network error','error');}
+}
+
+async function bulkShipSelloship() {
+  if(!selectedIds.size)return toast('No orders selected','error');
+  if(!confirm(`Ship ${selectedIds.size} orders via Selloship? AWBs will be auto-generated.`))return;
+  toast('🚀 Shipping via Selloship... this may take a moment','info');
+  try {
+    const r=await fetch(API+'/api/orders/bulk/ship-selloship',{method:'POST',headers:authHeaders(),body:JSON.stringify({ids:[...selectedIds]})});
+    const d=await r.json();
+    if(d.success){
+      toast(`✅ ${d.successCount} shipped, ${d.failCount} failed`,'success');
+      if(d.failCount>0){const fails=d.results.filter(r=>!r.success);console.error('Failed shipments:',fails);toast('⚠️ Some failed — check console for details','error');}
+      clearSelection();
+      loadOrders();
+      loadShippedOrders(); // refresh shipped tab
+    } else toast('Bulk Selloship failed: '+(d.error||''),'error');
+  } catch(e){toast('Network error: '+e.message,'error');}
+}
+
+async function updateStatus(id,status) {
+  try {
+    await fetch(API+'/api/orders/'+id+'/status',{method:'PUT',headers:authHeaders(),body:JSON.stringify({status})});
+    toast('Status updated → '+status,'success');
+    // Refresh both tabs so shipped orders move instantly
+    loadOrders();
+    if(status==='shipped' || status==='delivered') loadShippedOrders();
+  } catch(e){toast('Update failed','error');}
+}
+
+async function deleteOrder(id) {
+  if(!confirm('Delete this order? This cannot be undone.'))return;
+  try { await fetch(API+'/api/orders/'+id,{method:'DELETE',headers:authHeaders()}); toast('Order deleted','info'); loadOrders(); }
+  catch(e){toast('Delete failed','error');}
+}
+
+function exportCSV() {
+  const from=document.getElementById('ordersFrom').value; const to=document.getElementById('ordersTo').value;
+  const status=document.getElementById('statusFilter').value;
+  let url=API+'/api/orders/export/csv?token='+encodeURIComponent(token);
+  if(from)url+='&from='+from; if(to)url+='&to='+to; if(status!=='all')url+='&status='+status;
+  window.open(url,'_blank');
+}
+
+// ── EDIT ORDER MODAL ──────────────────────────────────────────────────────────
+let _editOrderCache = {};
+
+async function openEditOrderModal(id) {
+  document.getElementById('eoId').value = id;
+  // Try to load from current rendered orders first
+  try {
+    const r = await fetch(API+'/api/orders?page=1&limit=500', {headers:authHeaders()});
+    const d = await r.json();
+    const o = d.orders?.find(x => x._id === id);
+    if(o) {
+      document.getElementById('eoName').value = o.name||'';
+      document.getElementById('eoPhone').value = o.phone||'';
+      document.getElementById('eoAddress').value = o.address||'';
+      document.getElementById('eoPincode').value = o.pincode||'';
+      document.getElementById('eoCity').value = o.city||'';
+      document.getElementById('eoState').value = o.state||'';
+      document.getElementById('eoQty').value = o.quantity||1;
+      document.getElementById('eoProduct').value = o.productName||'';
+      document.getElementById('eoAmount').value = o.totalAmount||'';
+    }
+  } catch(e){}
+  document.getElementById('editOrderModal').classList.add('active');
+}
+function closeEditOrderModal(){document.getElementById('editOrderModal').classList.remove('active');}
+
+async function saveOrderEdit() {
+  const id = document.getElementById('eoId').value;
+  const payload = {
+    name: document.getElementById('eoName').value,
+    phone: document.getElementById('eoPhone').value,
+    address: document.getElementById('eoAddress').value,
+    pincode: document.getElementById('eoPincode').value,
+    city: document.getElementById('eoCity').value,
+    state: document.getElementById('eoState').value,
+    quantity: parseInt(document.getElementById('eoQty').value)||1,
+    productName: document.getElementById('eoProduct').value,
+    totalAmount: parseFloat(document.getElementById('eoAmount').value)||0
+  };
+  try {
+    const r = await fetch(API+'/api/orders/'+id, {method:'PUT',headers:authHeaders(),body:JSON.stringify(payload)});
+    const d = await r.json();
+    if(d.success){toast('✅ Order updated','success');closeEditOrderModal();loadOrders();}
+    else toast('Update failed: '+(d.error||''),'error');
+  } catch(e){toast('Network error','error');}
+}
+
+// ── SHIP MODAL ─────────────────────────────────────────────────────────────────
+function openShipModal(id) {
+  document.getElementById('shipOrderId').value = id;
+  document.getElementById('manualAwb').value = '';
+  document.getElementById('manualCourier').value = '';
+  document.getElementById('shipModal').classList.add('active');
+}
+function closeShipModal(){document.getElementById('shipModal').classList.remove('active');}
+
+async function doShipSelloship() {
+  const id = document.getElementById('shipOrderId').value;
+  const btn = event.target;
+  btn.disabled = true; btn.textContent = '⏳ Creating waybill...';
+  try {
+    const r = await fetch(API+'/api/orders/'+id+'/ship-selloship',{method:'POST',headers:authHeaders(),body:'{}'});
+    const d = await r.json();
+    if(d.success){
+      toast(`✅ Shipped via Selloship! AWB: ${d.awb} (${d.courierName||'—'})`,'success');
+      closeShipModal(); 
+      loadOrders();
+      loadShippedOrders(); // refresh shipped tab
+      if(d.shippingLabel) window.open(d.shippingLabel,'_blank');
+    } else {
+      toast('Selloship error: '+(d.error||'Unknown error'),'error');
+    }
+  } catch(e){toast('Network error: '+e.message,'error');}
+  finally{btn.disabled=false;btn.innerHTML='🚀 Ship via Selloship<br><small style="font-weight:400;opacity:.8">Auto-generate AWB + waybill label</small>';}
+}
+
+async function doShipManual() {
+  const id = document.getElementById('shipOrderId').value;
+  const awb = document.getElementById('manualAwb').value.trim();
+  const courierName = document.getElementById('manualCourier').value.trim();
+  try {
+    const r = await fetch(API+'/api/orders/'+id+'/ship-manual',{method:'POST',headers:authHeaders(),body:JSON.stringify({awb,courierName})});
+    const d = await r.json();
+    if(d.success){
+      toast('✅ Order marked as shipped','success');
+      closeShipModal();
+      loadOrders();
+      loadShippedOrders(); // refresh shipped tab
+    }
+    else toast('Failed: '+(d.error||''),'error');
+  } catch(e){toast('Network error','error');}
+}
+
+// ── PRODUCTS ──────────────────────────────────────────────────────────────────
+async function loadProducts() {
+  try {
+    const r=await fetch(API+'/api/products/all',{headers:authHeaders()}); const d=await r.json();
+    if(!d.success){toast('Could not load products','error');return;}
+    const grid=document.getElementById('productsGrid');
+    if(!d.products.length){grid.innerHTML='<div style="color:var(--muted);padding:20px">No products yet. Click "+ Add Product".</div>';return;}
+    grid.innerHTML=d.products.map(p=>{
+      const imgs=(p.images||[]).filter(Boolean);
+      const thumbsHtml=imgs.length?imgs.map(img=>`<img class="product-thumb" src="${escHtml(img)}" alt="img" onerror="this.style.display='none'">`).join(''):`<div class="product-thumb-placeholder">🧹</div>`;
+      return`<div class="product-card"><div class="product-thumbs">${thumbsHtml}</div><div class="product-title">${escHtml(p.name)}</div><div style="margin-bottom:6px"><span class="product-price">₹${p.price}</span><span class="product-mrp"> ₹${p.mrp}</span></div><div style="font-size:12px;color:var(--muted);margin-bottom:8px">Stock: ${p.stock} | ${p.active?'<span style="color:var(--green)">Active</span>':'<span style="color:var(--red)">Hidden</span>'}</div><div class="product-actions"><button class="btn btn-blue" style="font-size:12px;padding:7px 14px" onclick="openProductModal('${p._id}')">✏️ Edit</button><button class="btn btn-red" style="font-size:12px;padding:7px 14px" onclick="deleteProduct('${p._id}')">🗑 Delete</button></div></div>`;
+    }).join('');
+  } catch(e){toast('Failed to load products','error');}
+}
+
+function previewImg(input,previewId){const prev=document.getElementById(previewId);const url=input.value.trim();if(url){prev.src=url;prev.style.display='block';prev.onerror=()=>{prev.style.display='none';};}else{prev.style.display='none';}}
+
+function openProductModal(id) {
+  editingProductId=id||null;
+  document.getElementById('productModalTitle').textContent=id?'Edit Product':'Add Product';
+  ['pId','pName','pPrice','pMrp','pStock','pDesc','pImg1','pImg2','pImg3','pBenefits','pIngr','pHtu'].forEach(i=>{const el=document.getElementById(i);if(el)el.value='';});
+  document.getElementById('pActive').value='true';
+  ['prev1','prev2','prev3'].forEach(id=>{const el=document.getElementById(id);el.src='';el.style.display='none';});
+  if(id){
+    fetch(API+'/api/products/all',{headers:authHeaders()}).then(r=>r.json()).then(d=>{
+      const p=d.products.find(x=>x._id===id); if(!p)return;
+      document.getElementById('pId').value=p._id;
+      document.getElementById('pName').value=p.name||'';
+      document.getElementById('pPrice').value=p.price||'';
+      document.getElementById('pMrp').value=p.mrp||'';
+      document.getElementById('pStock').value=p.stock||'';
+      document.getElementById('pDesc').value=p.description||'';
+      document.getElementById('pBenefits').value=(p.benefits||[]).join(', ');
+      document.getElementById('pIngr').value=p.ingredients||'';
+      document.getElementById('pHtu').value=p.howToUse||'';
+      document.getElementById('pActive').value=p.active?'true':'false';
+      const imgs=p.images||[];
+      ['pImg1','pImg2','pImg3'].forEach((imgId,idx)=>{const val=imgs[idx]||'';const el=document.getElementById(imgId);el.value=val;if(val)previewImg(el,'prev'+(idx+1));});
+    });
+  }
+  document.getElementById('productModal').classList.add('active');
+}
+function closeProductModal(){document.getElementById('productModal').classList.remove('active');}
+
+async function saveProduct() {
+  const id=document.getElementById('pId').value;
+  const images=['pImg1','pImg2','pImg3'].map(i=>document.getElementById(i).value.trim()).filter(Boolean);
+  const payload={name:document.getElementById('pName').value,price:parseFloat(document.getElementById('pPrice').value),mrp:parseFloat(document.getElementById('pMrp').value),stock:parseInt(document.getElementById('pStock').value)||100,description:document.getElementById('pDesc').value,images,benefits:document.getElementById('pBenefits').value.split(',').map(s=>s.trim()).filter(Boolean),ingredients:document.getElementById('pIngr').value,howToUse:document.getElementById('pHtu').value,active:document.getElementById('pActive').value==='true'};
+  try {
+    const url=id?API+'/api/products/'+id:API+'/api/products'; const method=id?'PUT':'POST';
+    const r=await fetch(url,{method,headers:authHeaders(),body:JSON.stringify(payload)}); const d=await r.json();
+    if(d.success){toast(id?'✅ Product updated':'✅ Product created','success');closeProductModal();loadProducts();}
+    else toast('Save failed: '+(d.error||''),'error');
+  } catch(e){toast('Network error','error');}
+}
+
+async function deleteProduct(id) {
+  if(!confirm('Delete this product? This cannot be undone.'))return;
+  try{await fetch(API+'/api/products/'+id,{method:'DELETE',headers:authHeaders()});toast('Product deleted','info');loadProducts();}catch(e){toast('Delete failed','error');}
+}
+
+// ── SETTINGS ──────────────────────────────────────────────────────────────────
+async function loadSettings() {
+  try {
+    const r=await fetch(API+'/api/settings',{headers:authHeaders()}); const d=await r.json();
+    if(d.success){
+      if(d.metaPixel){document.getElementById('pixelInput').value=d.metaPixel;document.getElementById('activePixel').textContent=d.metaPixel;}
+      if(d.selloshipUsername) document.getElementById('selloUsernameInput').value=d.selloshipUsername;
+      const badge=document.getElementById('selloStatusBadge');
+      if(d.selloshipConnected){badge.className='sello-status connected';badge.textContent='✅ Connected';}
+      else{badge.className='sello-status disconnected';badge.textContent='⚫ Not Connected';}
+    }
+  } catch(e){}
+  document.getElementById('backendUrlInput').value=API;
+  document.getElementById('currentBackendDisplay').textContent=API;
+  document.getElementById('webhookUrl').textContent=API+'/api/shipping/webhook';
+}
+
+function saveBackendUrl(){
+  const url=document.getElementById('backendUrlInput').value.trim();
+  if(!url)return toast('Enter a backend URL','error');
+  if(!url.startsWith('http'))return toast('URL must start with http/https','error');
+  const cleanUrl=url.replace(/\/$/,'');
+  API=cleanUrl; localStorage.setItem('vc_backend_url',cleanUrl);
+  document.getElementById('currentBackendDisplay').textContent=cleanUrl;
+  document.getElementById('webhookUrl').textContent=cleanUrl+'/api/shipping/webhook';
+  toast('✅ Backend URL saved!','success'); checkBackendStatus();
+}
+
+async function testSelloship() {
+  const username=document.getElementById('selloUsernameInput').value.trim();
+  const password=document.getElementById('selloPasswordInput').value.trim();
+  if(!username||!password)return toast('Enter username and password first','error');
+  toast('🔌 Testing Selloship connection...','info');
+  try {
+    const r=await fetch(API+'/api/settings/test-selloship',{method:'POST',headers:authHeaders(),body:JSON.stringify({username,password})});
+    const d=await r.json();
+    if(d.success){
+      toast('✅ '+d.message,'success');
+      const badge=document.getElementById('selloStatusBadge');
+      badge.className='sello-status connected'; badge.textContent='✅ Connected';
+    } else toast('❌ '+d.error,'error');
+  } catch(e){toast('Network error','error');}
+}
+
+async function saveSelloship() {
+  const username=document.getElementById('selloUsernameInput').value.trim();
+  const password=document.getElementById('selloPasswordInput').value.trim();
+  if(!username||!password)return toast('Enter both username and password','error');
+  try {
+    const r=await fetch(API+'/api/settings',{method:'POST',headers:authHeaders(),body:JSON.stringify({selloshipUsername:username,selloshipPassword:password})});
+    const d=await r.json();
+    if(d.success){toast('✅ Selloship credentials saved','success');loadSettings();}
+    else toast('Save failed: '+(d.error||''),'error');
+  } catch(e){toast('Network error','error');}
+}
+
+async function savePixel() {
+  const pid=document.getElementById('pixelInput').value.trim();
+  try {
+    const r=await fetch(API+'/api/meta',{method:'POST',headers:authHeaders(),body:JSON.stringify({metaPixel:pid})});
+    const d=await r.json();
+    if(d.success){document.getElementById('activePixel').textContent=pid||'None';toast('Meta Pixel saved ✅','success');}
+    else toast('Save failed','error');
+  } catch(e){toast('Network error','error');}
+}
+
+function fmtDate(dt){if(!dt)return'—';return new Date(dt).toLocaleString('en-IN',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'});}
+function escHtml(str){if(!str)return'';return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function toast(msg,type='success'){const wrap=document.getElementById('toastWrap');const el=document.createElement('div');el.className='toast '+type;el.innerHTML=`<span>${msg}</span>`;wrap.appendChild(el);setTimeout(()=>el.remove(),4000);}
+
+// ─── PINCODE AUTO-FETCH (Admin Panel) ─────────────────────────────
+async function fetchPincodeAdmin() {
+  const pin = document.getElementById('eoPincode').value.replace(/\D/g,'');
+  document.getElementById('eoPincode').value = pin;
+  const hint = document.getElementById('pincodeHintAdmin');
+  if (pin.length !== 6) { hint.style.display='none'; return; }
+  
+  hint.style.display='block'; hint.textContent='📍 Fetching...'; hint.style.color='#6b7280';
+  try {
+    const r = await fetch(`${API}/api/pincode/${pin}`, {headers: authHeaders()});
+    const d = await r.json();
+    if (d[0]?.Status === 'Success') {
+      const po = d[0].PostOffice[0];
+      document.getElementById('eoCity').value = po.District;
+      document.getElementById('eoState').value = po.State;
+      hint.textContent = '✅ ' + po.District + ', ' + po.State;
+      hint.style.color = '#16a34a';
+    } else {
+      hint.textContent = '❌ Pincode not found';
+      hint.style.color = '#ef4444';
+    }
+  } catch(e) {
+    hint.textContent = '❌ Error fetching pincode';
+    hint.style.color = '#ef4444';
+  }
+}
+
+document.getElementById('productModal').addEventListener('click',e=>{if(e.target===document.getElementById('productModal'))closeProductModal();});
+document.getElementById('editOrderModal').addEventListener('click',e=>{if(e.target===document.getElementById('editOrderModal'))closeEditOrderModal();});
+document.getElementById('shipModal').addEventListener('click',e=>{if(e.target===document.getElementById('shipModal'))closeShipModal();});
+</script>
+</body>
+</html>

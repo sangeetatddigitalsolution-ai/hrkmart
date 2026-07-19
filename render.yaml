@@ -1,0 +1,22 @@
+services:
+  - type: web
+    name: vacukart
+    runtime: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: MONGODB_URI
+        scope: build,runtime
+        sync: false
+      - key: ADMIN_USER
+        scope: runtime
+        sync: false
+      - key: ADMIN_PASS
+        scope: runtime
+        sync: false
+      - key: PORT
+        value: "5000"
+      - key: BACKEND_URL
+        scope: runtime
+        sync: false
