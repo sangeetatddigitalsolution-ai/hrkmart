@@ -72,7 +72,8 @@ const nativeFetch = globalThis.fetch
 // ─── MONGOOSE CONNECT ─────────────────────────────────────────────────────────
 mongoose.connect(process.env.MONGODB_URI)
   .then(() => console.log('✅ MongoDB connected'))
-  .catch(err => console.error('❌ MongoDB error:', err));
+  .catch(err => console.error('❌ MongoDB connect failed:', err.message));
+mongoose.connection.on('error', err => console.error('❌ MongoDB error:', err.message));
 
 // ─── SCHEMAS ──────────────────────────────────────────────────────────────────
 const orderSchema = new mongoose.Schema({
@@ -519,6 +520,7 @@ app.get('/api/orders', requireAdmin, async (req, res) => {
     const { status, search, from, to, page = 1, limit = 50 } = req.query;
     let query = {};
     if (status && status !== 'all') query.status = status;
+    else query.status = { $nin: ['shipped', 'delivered'] };
     if (search) query.$or = [{ name: new RegExp(search,'i') },{ phone: new RegExp(search,'i') },{ city: new RegExp(search,'i') }];
     if (from || to) {
       query.createdAt = {};

@@ -7,14 +7,14 @@
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Hind:wght@400;500;600&display=swap" rel="stylesheet"/>
 <style>
 :root{
-  --sidebar:#111827;--sidebar2:#1f2937;--green:#16a34a;--green2:#22c55e;
+  --sidebar:#111827;--sidebar2:#1f2937;--green:#2389c9;--green2:#35c3d6;
   --gold:#f59e0b;--red:#ef4444;--orange:#f97316;--blue:#3b82f6;
   --purple:#8b5cf6;--white:#ffffff;--bg:#f3f4f6;--card:#ffffff;
   --border:#e5e7eb;--text:#111827;--muted:#6b7280;
 }
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'Hind',sans-serif;background:var(--bg);color:var(--text);display:flex;min-height:100vh;overflow-x:hidden}
-#loginScreen{display:flex;align-items:center;justify-content:center;min-height:100vh;width:100%;background:linear-gradient(135deg,#0f1e15,#1a3025)}
+#loginScreen{display:flex;align-items:center;justify-content:center;min-height:100vh;width:100%;background:linear-gradient(135deg,#0a1626,#123a63)}
 .login-box{background:#fff;border-radius:20px;padding:48px 36px;width:100%;max-width:420px;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.3)}
 .login-logo{font-family:'Baloo 2',cursive;font-size:28px;color:var(--green);font-weight:800;margin-bottom:6px}
 .login-box h2{font-size:18px;color:#555;font-weight:400;margin-bottom:30px}
@@ -30,7 +30,7 @@ body{font-family:'Hind',sans-serif;background:var(--bg);color:var(--text);displa
 .sidebar-nav{flex:1;padding:12px 0}
 .nav-item{display:flex;align-items:center;gap:12px;padding:13px 20px;color:rgba(255,255,255,.65);cursor:pointer;font-size:14px;font-weight:600;transition:.2s;border-left:3px solid transparent}
 .nav-item:hover{background:rgba(255,255,255,.07);color:#fff}
-.nav-item.active{background:rgba(34,197,94,.12);color:var(--green2);border-left-color:var(--green2)}
+.nav-item.active{background:rgba(35,137,201,.12);color:var(--green2);border-left-color:var(--green2)}
 .nav-icon{font-size:18px;width:22px;text-align:center}
 .sidebar-footer{padding:16px 20px;border-top:1px solid rgba(255,255,255,.08)}
 .logout-btn{width:100%;background:rgba(239,68,68,.15);color:var(--red);border:1px solid rgba(239,68,68,.3);padding:10px;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;font-family:'Hind',sans-serif}
@@ -38,14 +38,14 @@ body{font-family:'Hind',sans-serif;background:var(--bg);color:var(--text);displa
 .top-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;flex-wrap:wrap;gap:12px}
 .top-bar h1{font-family:'Baloo 2',cursive;font-size:24px;font-weight:800}
 .top-bar-right{display:flex;align-items:center;gap:12px}
-.backend-indicator{font-size:12px;padding:5px 12px;border-radius:20px;background:rgba(34,197,94,.1);color:var(--green);border:1px solid rgba(34,197,94,.3);font-weight:600}
+.backend-indicator{font-size:12px;padding:5px 12px;border-radius:20px;background:rgba(35,137,201,.1);color:var(--green);border:1px solid rgba(35,137,201,.3);font-weight:600}
 .tab-content{display:none}.tab-content.active{display:block}
 .stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:16px;margin-bottom:24px}
-.visitor-live-card{background:linear-gradient(135deg,#0f2a1a,#1a3a25);border-radius:14px;padding:20px;border-left:4px solid #4ade80;box-shadow:0 2px 8px rgba(0,0,0,.15);color:#fff;display:flex;align-items:center;gap:14px}
-.visitor-live-dot{width:12px;height:12px;border-radius:50%;background:#4ade80;flex-shrink:0;box-shadow:0 0 0 0 rgba(74,222,128,.6);animation:liveVPulse 1.5s infinite}
-@keyframes liveVPulse{0%{box-shadow:0 0 0 0 rgba(74,222,128,.6)}70%{box-shadow:0 0 0 10px rgba(74,222,128,0)}100%{box-shadow:0 0 0 0 rgba(74,222,128,0)}}
+.visitor-live-card{background:linear-gradient(135deg,#0a1626,#123a63);border-radius:14px;padding:20px;border-left:4px solid #35c3d6;box-shadow:0 2px 8px rgba(0,0,0,.15);color:#fff;display:flex;align-items:center;gap:14px}
+.visitor-live-dot{width:12px;height:12px;border-radius:50%;background:#35c3d6;flex-shrink:0;box-shadow:0 0 0 0 rgba(53,195,214,.6);animation:liveVPulse 1.5s infinite}
+@keyframes liveVPulse{0%{box-shadow:0 0 0 0 rgba(53,195,214,.6)}70%{box-shadow:0 0 0 10px rgba(53,195,214,0)}100%{box-shadow:0 0 0 0 rgba(53,195,214,0)}}
 .visitor-live-info .stat-label{color:rgba(255,255,255,.6);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:2px}
-.visitor-live-info .stat-val{font-size:28px;font-weight:800;font-family:'Baloo 2',cursive;color:#4ade80;line-height:1}
+.visitor-live-info .stat-val{font-size:28px;font-weight:800;font-family:'Baloo 2',cursive;color:#35c3d6;line-height:1}
 .visitor-live-info .stat-sub{font-size:11px;color:rgba(255,255,255,.45);margin-top:3px}
 .stat-card{background:var(--card);border-radius:14px;padding:20px;border-left:4px solid var(--green);box-shadow:0 2px 8px rgba(0,0,0,.06)}
 .stat-card.gold{border-left-color:var(--gold)}.stat-card.blue{border-left-color:var(--blue)}.stat-card.orange{border-left-color:var(--orange)}.stat-card.red{border-left-color:var(--red)}.stat-card.purple{border-left-color:#8b5cf6}
@@ -58,7 +58,7 @@ body{font-family:'Hind',sans-serif;background:var(--bg);color:var(--text);displa
 .filter-bar input:focus,.filter-bar select:focus{border-color:var(--green)}
 .btn{padding:9px 18px;border-radius:8px;border:none;font-size:13px;font-weight:700;cursor:pointer;font-family:'Hind',sans-serif;display:inline-flex;align-items:center;gap:6px;transition:.2s}
 .btn:disabled{opacity:.5;cursor:not-allowed}
-.btn-green{background:var(--green);color:#fff}.btn-green:hover:not(:disabled){background:#15803d}
+.btn-green{background:var(--green);color:#fff}.btn-green:hover:not(:disabled){background:#1a6fa8}
 .btn-blue{background:var(--blue);color:#fff}.btn-blue:hover:not(:disabled){background:#2563eb}
 .btn-red{background:var(--red);color:#fff}.btn-red:hover:not(:disabled){background:#dc2626}
 .btn-gold{background:var(--gold);color:#fff}.btn-gold:hover:not(:disabled){background:#d97706}
@@ -78,8 +78,8 @@ tr:last-child td{border-bottom:none}
 tr:hover td{background:#fafafa}
 .td-name{font-weight:700;color:var(--text)}.td-phone{color:var(--muted)}
 .badge{padding:4px 10px;border-radius:20px;font-size:11px;font-weight:700;white-space:nowrap}
-.badge-new{background:#dbeafe;color:#1d4ed8}.badge-confirmed{background:#d1fae5;color:#065f46}
-.badge-shipped{background:#fef3c7;color:#92400e}.badge-delivered{background:#dcfce7;color:#14532d}
+.badge-new{background:#dbeafe;color:#1d4ed8}.badge-confirmed{background:#d3e8f0;color:#0d2a4a}
+.badge-shipped{background:#fef3c7;color:#92400e}.badge-delivered{background:#eaf5f8;color:#123a63}
 .badge-cancelled{background:#fee2e2;color:#991b1b}
 .addr-score{display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:700}
 .addr-score.high{color:var(--green)}.addr-score.mid{color:var(--orange)}.addr-score.low{color:var(--red)}
@@ -130,11 +130,11 @@ tr:hover td{background:#fafafa}
 .settings-section input{width:100%;padding:11px 14px;border:2px solid var(--border);border-radius:8px;font-size:14px;font-family:'Hind',sans-serif;outline:none;margin-bottom:10px}
 .settings-section input:focus{border-color:var(--green)}
 .sello-status{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:20px;font-size:12px;font-weight:700;margin-bottom:12px}
-.sello-status.connected{background:#d1fae5;color:#065f46}
+.sello-status.connected{background:#d3e8f0;color:#0d2a4a}
 .sello-status.disconnected{background:#fee2e2;color:#991b1b}
 .event-pills{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
-.event-pill{background:#d1fae5;color:#065f46;padding:5px 12px;border-radius:20px;font-size:12px;font-weight:700}
-@keyframes soundPulse{0%,100%{box-shadow:0 0 0 0 rgba(34,197,94,.4)}70%{box-shadow:0 0 0 10px rgba(34,197,94,0)}}
+.event-pill{background:#d3e8f0;color:#0d2a4a;padding:5px 12px;border-radius:20px;font-size:12px;font-weight:700}
+@keyframes soundPulse{0%,100%{box-shadow:0 0 0 0 rgba(35,137,201,.4)}70%{box-shadow:0 0 0 10px rgba(35,137,201,0)}}
 .sound-active{animation:soundPulse 1.5s infinite}
 .pagination{display:flex;align-items:center;gap:8px;padding:14px 20px;border-top:1px solid var(--border);flex-wrap:wrap}
 .page-btn{padding:6px 12px;border:1px solid var(--border);border-radius:6px;background:#fff;cursor:pointer;font-size:12px;font-weight:600;transition:.2s}
@@ -173,7 +173,7 @@ tr:hover td{background:#fafafa}
 <div id="app">
   <button class="hamburger" onclick="toggleSidebar()">☰</button>
   <div class="sidebar" id="sidebar">
-    <div class="sidebar-logo">Vaidya<span>kart</span></div>
+    <div class="sidebar-logo">Vacu<span>Kart</span></div>
     <nav class="sidebar-nav">
       <div class="nav-item active" onclick="showTab('dashboard',this)"><span class="nav-icon">📊</span> Dashboard</div>
       <div class="nav-item" onclick="showTab('orders',this)"><span class="nav-icon">📦</span> Orders</div>
@@ -216,7 +216,7 @@ tr:hover td{background:#fafafa}
         <div class="stat-card orange"><div class="stat-label">Shipped</div><div class="stat-val" id="s-shipped">—</div><div class="stat-sub">In transit</div></div>
         <div class="stat-card purple"><div class="stat-label">Delivered</div><div class="stat-val" id="s-delivered">—</div></div>
         <div class="stat-card red"><div class="stat-label">Cancelled</div><div class="stat-val" id="s-cancelled">—</div></div>
-        <div class="stat-card" style="border-left-color:#16a34a"><div class="stat-label">Revenue (₹)</div><div class="stat-val" id="s-revenue">—</div><div class="stat-sub">Excl. cancelled</div></div>
+        <div class="stat-card" style="border-left-color:#2389c9"><div class="stat-label">Revenue (₹)</div><div class="stat-val" id="s-revenue">—</div><div class="stat-sub">Excl. cancelled</div></div>
       </div>
       <div class="chart-wrap"><h3>📈 Daily Orders</h3><div class="bar-chart" id="barChart"></div></div>
       <div class="table-wrap">
@@ -235,8 +235,6 @@ tr:hover td{background:#fafafa}
           <option value="all">All Status</option>
           <option value="new">New</option>
           <option value="confirmed">Confirmed</option>
-          <option value="shipped">Shipped</option>
-          <option value="delivered">Delivered</option>
           <option value="cancelled">Cancelled</option>
         </select>
         <input type="text" id="searchFilter" placeholder="Search name/phone..." oninput="loadOrders()" style="min-width:180px"/>
@@ -553,7 +551,7 @@ async function checkBackendStatus() {
   const el = document.getElementById('backendIndicator');
   try {
     const r = await fetch(API + '/');
-    if (r.ok) { el.textContent='🟢 Backend Connected'; el.style.background='rgba(34,197,94,.1)'; el.style.color='#16a34a'; }
+    if (r.ok) { el.textContent='🟢 Backend Connected'; el.style.background='rgba(35,137,201,.1)'; el.style.color='#2389c9'; }
     else { el.textContent='🔴 Backend Error'; el.style.background='rgba(239,68,68,.1)'; el.style.color='#ef4444'; }
   } catch(e) { el.textContent='🔴 Backend Offline'; el.style.background='rgba(239,68,68,.1)'; el.style.color='#ef4444'; }
 }
@@ -1104,7 +1102,7 @@ async function fetchPincodeAdmin() {
       document.getElementById('eoCity').value = po.District;
       document.getElementById('eoState').value = po.State;
       hint.textContent = '✅ ' + po.District + ', ' + po.State;
-      hint.style.color = '#16a34a';
+      hint.style.color = '#2389c9';
     } else {
       hint.textContent = '❌ Pincode not found';
       hint.style.color = '#ef4444';
